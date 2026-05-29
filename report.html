@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Mensal de Marketing - Kuntz</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons & Tailwind -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* =========================================================================
+           1. KUNTZ DESIGN SYSTEM VARIABLES & BASE
+           ========================================================================= */
+        :root {
+            --verde: #1B3820;
+            --verde-light: #264d2e;
+            --verde-dark: #0f2214;
+            --dourado: #F4E0B0;
+            --dourado-dark: #B2A886;
+            --dourado-accent: #d4b96a;
+            --escuro: #1C1C1C;
+            --escuro-soft: #2a2a2a;
+            --branco: #f8f6f1;
+            --branco-puro: #ffffff;
+            --cinza-text: #b0ada5;
+            --cinza-light: #e8e4dc;
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--branco);
+            background-color: var(--escuro);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            background: radial-gradient(ellipse at top right, rgba(27, 56, 32, 0.4) 0%, transparent 60%), 
+                        radial-gradient(ellipse at bottom left, rgba(244, 224, 176, 0.05) 0%, transparent 40%);
+            background-color: #1C1C1C;
+            min-height: 100vh;
+        }
+
+        .font-display { font-family: var(--font-display); }
+        .font-body { font-family: var(--font-body); }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 4px; text-transform: uppercase;
+            color: var(--dourado-accent); margin-bottom: 16px;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 500; color: var(--branco);
+            line-height: 1.25; margin-bottom: 24px;
+        }
+
+        .gold-line {
+            width: 60px; height: 2px;
+            background: linear-gradient(90deg, var(--dourado-accent), transparent);
+            margin-bottom: 32px;
+        }
+
+        .scenario-card {
+            position: relative; padding: 40px 32px;
+            background: linear-gradient(145deg, rgba(27, 56, 32, 0.15), rgba(28, 28, 28, 0.8));
+            border: 1px solid rgba(244, 224, 176, 0.08);
+            transition: all 0.4s ease; cursor: default;
+        }
+        .scenario-card:hover {
+            border-color: var(--dourado-accent); transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+        .scenario-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 0; background: var(--dourado-accent);
+            transition: height 0.4s ease;
+        }
+        .scenario-card:hover::before { height: 100%; }
+
+        .form-group label {
+            font-size: 0.72rem; font-weight: 600; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--cinza-text);
+        }
+        .form-group input, .form-group textarea {
+            padding: 14px 18px; background: rgba(27, 56, 32, 0.12);
+            border: 1px solid rgba(244, 224, 176, 0.1); color: var(--branco);
+            font-family: var(--font-body); font-size: 0.92rem; outline: none;
+            transition: border-color 0.3s ease; width: 100%;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--dourado-accent); }
+
+        /* Report Specific Customizations */
+        .kpi-hightlight {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--dourado);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .kpi-label {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--cinza-text);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .insight-box {
+            background: rgba(42, 42, 42, 0.3);
+            border: 1px solid rgba(244, 224, 176, 0.08);
+            padding: 36px;
+            border-radius: 16px;
+            transition: all 0.4s ease;
+        }
+        
+        .insight-box:hover {
+            border-color: rgba(244, 224, 176, 0.3);
+            background: rgba(42, 42, 42, 0.5);
+        }
+
+        .animate-on-scroll {
+            opacity: 0.01; filter: blur(10px); transform: translateY(20px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .animate-on-scroll.in-view {
+            opacity: 1; filter: blur(0); transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="pt-16 pb-32">
+
+    <!-- Header & Brand Logo -->
+    <section class="max-w-[1200px] mx-auto px-6 mb-24 pt-8 text-center animate-on-scroll in-view" style="transition-delay: 100ms;">
+        <img src="file:///C:/Users/Ronaldo/Desktop/kuntz-lp/assets/images/logo-kuntz.png" alt="Kuntz Logo" class="h-14 mx-auto mb-10 object-contain drop-shadow-md" style="filter: brightness(0) invert(85%) sepia(21%) saturate(546%) hue-rotate(352deg) brightness(101%) contrast(92%);">
+        <span class="section-label mx-auto">Performance Digital</span>
+        <h1 class="section-title text-center mb-6">Relatório Gerencial de Marketing</h1>
+        <div class="gold-line mx-auto mb-6"></div>
+        <p class="font-body text-[#b0ada5] max-w-2xl mx-auto leading-relaxed">
+            Visão executiva do mês, destacando resultados, validações estratégicas e KPIs direcionados ao fortalecimento institucional e à aquisição qualificada de oportunidades.
+        </p>
+    </section>
+
+    <!-- Visão Geral (Overview) -->
+    <section class="max-w-[1200px] mx-auto px-6 mb-24 animate-on-scroll in-view" style="transition-delay: 200ms;">
+        <div class="mb-10 text-center md:text-left">
+            <span class="section-label">Consolidado do Mês</span>
+            <h2 class="font-display text-2xl text-white">Ecossistema de Alta Performance</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Total Invested -->
+            <div class="scenario-card text-center flex flex-col items-center justify-center min-h-[220px]">
+                <i data-lucide="trending-up" class="w-10 h-10 text-[#d4b96a] mb-6"></i>
+                <div class="kpi-hightlight">R$ 4.918,82</div>
+                <div class="kpi-label">Investimento Total</div>
+            </div>
+            <!-- Total Leads -->
+            <div class="scenario-card text-center flex flex-col items-center justify-center min-h-[220px]">
+                <i data-lucide="users" class="w-10 h-10 text-[#d4b96a] mb-6"></i>
+                <div class="kpi-hightlight">57</div>
+                <div class="kpi-label">Leads Gerados</div>
+            </div>
+            <!-- Total Impressions -->
+            <div class="scenario-card text-center flex flex-col items-center justify-center min-h-[220px]">
+                <i data-lucide="eye" class="w-10 h-10 text-[#d4b96a] mb-6"></i>
+                <div class="kpi-hightlight">22.187</div>
+                <div class="kpi-label">Impressões da Marca</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Detalhamento de Canais -->
+    <section class="max-w-[1200px] mx-auto px-6 mb-24 animate-on-scroll in-view" style="transition-delay: 300ms;">
+        <div class="mb-10 text-center md:text-left border-t border-[rgba(244,224,176,0.08)] pt-16">
+            <span class="section-label">Detalhamento Técnico</span>
+            <h2 class="font-display text-2xl text-white">Performance por Origem</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Google Ads Card -->
+            <div class="insight-box h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-4 mb-8 border-b border-[rgba(244,224,176,0.08)] pb-6 relative">
+                        <div class="p-3 bg-[rgba(255,255,255,0.05)] rounded-lg backdrop-blur-sm border border-[rgba(255,255,255,0.02)]">
+                            <i data-lucide="search" class="w-6 h-6 text-[#d4b96a]"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-2xl text-[#F4E0B0]">Google Ads</h3>
+                            <p class="font-body text-xs text-[#b0ada5] uppercase tracking-wider font-semibold mt-1">Busca Direcionada</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-y-8 gap-x-6 mb-10">
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Investimento</p>
+                            <p class="font-display text-2xl text-white">R$ 4.363,14</p>
+                        </div>
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Volume de Leads</p>
+                            <p class="font-display text-2xl text-white">26</p>
+                        </div>
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Impressões</p>
+                            <p class="font-display text-2xl text-white">5.803</p>
+                        </div>
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Status de Otimização</p>
+                            <p class="font-display text-lg text-[#d4b96a] mt-1 flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> Foco em Core</p> 
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-[rgba(27,56,32,0.2)] p-6 border border-[rgba(27,56,32,0.4)] rounded-lg relative overflow-hidden">
+                    <!-- Accent side bar -->
+                    <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#d4b96a]"></div>
+                    <h4 class="font-display text-sm text-[#d4b96a] mb-3 uppercase tracking-widest flex items-center gap-2 ml-2">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Notas Estratégicas
+                    </h4>
+                    <p class="font-body text-[0.92rem] text-[#e8e4dc] leading-relaxed ml-2 font-light">
+                        Neste mês, iniciamos uma otimização na estrutura de tráfego pago do Google Ads por meio de <strong>campanhas focadas em concorrentes (Branding)</strong>. Após análises rigorosas, validamos que essa frente não entregou o padrão exigido pelo escritório. Diante disso, <strong>as campanhas foram desativadas</strong>, e toda a verba foi realocada estrategicamente para a <strong>Campanha de Core</strong>, assegurando máxima eficiência na captação contínua.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Meta Ads Card -->
+            <div class="insight-box h-full flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-4 mb-8 border-b border-[rgba(244,224,176,0.08)] pb-6 relative">
+                        <div class="p-3 bg-[rgba(255,255,255,0.05)] rounded-lg backdrop-blur-sm border border-[rgba(255,255,255,0.02)]">
+                            <i data-lucide="instagram" class="w-6 h-6 text-[#d4b96a]"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-2xl text-[#F4E0B0]">Meta Ads</h3>
+                            <p class="font-body text-xs text-[#b0ada5] uppercase tracking-wider font-semibold mt-1">Social & Remarketing</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-y-8 gap-x-6 mb-10">
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Investimento</p>
+                            <p class="font-display text-2xl text-white">R$ 555,68</p>
+                        </div>
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Volume de Leads</p>
+                            <p class="font-display text-2xl text-white">31</p>
+                        </div>
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Impressões</p>
+                            <p class="font-display text-2xl text-white">16.384</p>
+                        </div>
+                        <div>
+                            <p class="font-body text-[0.65rem] text-[#b0ada5] uppercase tracking-widest mb-2 font-semibold">Detalhamento de Origem</p>
+                            <div class="mt-1 font-body text-sm font-medium text-white flex flex-col gap-1">
+                                <span class="flex justify-between w-3/4"><span class="text-[#b0ada5]">WhatsApp:</span> 28</span>
+                                <span class="flex justify-between w-3/4"><span class="text-[#b0ada5]">Formulário:</span> 3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-[rgba(27,56,32,0.2)] p-6 border border-[rgba(27,56,32,0.4)] rounded-lg relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#d4b96a]"></div>
+                    <h4 class="font-display text-sm text-[#d4b96a] mb-3 uppercase tracking-widest flex items-center gap-2 ml-2">
+                        <i data-lucide="target" class="w-4 h-4"></i> Notas Estratégicas
+                    </h4>
+                    <p class="font-body text-[0.92rem] text-[#e8e4dc] leading-relaxed ml-2 font-light">
+                        No ecossistema da Meta, mantivemos ativa uma robusta frente de <strong>campanhas de remarketing</strong>. A estratégia atual foca em direcionar contatos já qualificados diretamente para o <strong>WhatsApp e Formulários</strong>, garantindo uma resposta rápida, sem atritos e mensurada no momento de maior nível de interesse e intenção do usuário.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O Principal Movimento -->
+    <section class="max-w-[1200px] mx-auto px-6 text-center animate-on-scroll in-view" style="transition-delay: 400ms;">
+        <div class="scenario-card !bg-transparent border border-[rgba(212,185,106,0.3)] !p-12 md:!p-20 relative overflow-hidden rounded-2xl mx-auto shadow-2xl shadow-[rgba(0,0,0,0.5)]">
+            <!-- Premium Lighting Effect -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[rgba(212,185,106,0.05)] rounded-full blur-[100px] pointer-events-none z-0"></div>
+            
+            <div class="relative z-10">
+                <div class="mx-auto w-16 h-16 rounded-full border border-[rgba(212,185,106,0.3)] flex items-center justify-center mb-6 bg-[rgba(27,56,32,0.4)]">
+                    <i data-lucide="award" class="w-8 h-8 text-[#d4b96a]"></i>
+                </div>
+                
+                <span class="section-label mx-auto mb-4">Direcionamento Macro</span>
+                <h2 class="font-display text-3xl md:text-5xl text-white mb-8 leading-tight">O Principal Movimento<br>Deste Ciclo</h2>
+                
+                <div class="gold-line mx-auto mb-8"></div>
+                
+                <p class="font-body text-lg md:text-xl text-[#b0ada5] max-w-[800px] mx-auto leading-relaxed font-light">
+                    O grande foco estratégico deste ciclo foi a estruturação de ações voltadas a <strong>fortalecer a autoridade digital e consolidar a marca e a presença de Eduardo Kuntz</strong>. Paralelo a esse movimento, nossa equipe tem liderado uma esteira intensa de <strong>produção de conteúdos institucionais</strong>, formatando um arsenal que servirá como pilar de qualificação contínua do público focado.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Decoration -->
+    <div class="h-px w-full max-w-[1200px] mx-auto mt-24 bg-gradient-to-r from-transparent via-[rgba(244,224,176,0.2)] to-transparent"></div>
+    <div class="text-center mt-12 mb-8">
+        <p class="font-display text-[#d4b96a] tracking-widest uppercase text-sm">Kuntz Advocacia &copy; Executivo Mensal</p>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Elegant Scroll Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            // Element starts initial state
+            el.classList.remove('in-view');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

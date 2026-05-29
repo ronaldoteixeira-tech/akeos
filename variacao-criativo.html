@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akeos | Variação de Criativo - Ética</title>
+    <!-- Fontes do Brandbook -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        akeos: {
+                            purple: '#5B21B6',
+                            dark: '#1E1B4B',
+                            yellow: '#EAB308',
+                            gray: '#F3F4F6',
+                            text: '#1F2937',
+                            muted: '#6B7280'
+                        }
+                    },
+                    fontFamily: {
+                        'head': ['Montserrat', 'sans-serif'],
+                        'body': ['Poppins', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'premium': '0 10px 40px -10px rgba(91,33,182,0.4)',
+                        'glow': '0 0 20px rgba(234, 179, 8, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .text-glow {
+            text-shadow: 0 0 25px rgba(234, 179, 8, 0.5);
+        }
+        .reveal-up {
+            animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes revealUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#0f0e13] min-h-screen flex items-center justify-center p-4 sm:p-8 font-body">
+
+    <!-- Container de Apresentação (Estilo Showcase Profissional) -->
+    <div class="w-full max-w-[1100px] flex flex-col lg:flex-row gap-0 lg:gap-12 bg-[#171424] rounded-3xl p-6 sm:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] border border-white/5 relative overflow-hidden">
+        
+        <!-- Efeito de Fundo Decorativo do Container -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-akeos-purple/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <!-- Seção 1: Preview do Ad em HTML -->
+        <div class="w-full lg:w-1/2 flex justify-center items-center z-10 mb-10 lg:mb-0">
+            <!-- Aspect Square (Formato Feed/Ads) -->
+            <div class="relative w-full max-w-[450px] lg:max-w-[500px] aspect-square rounded-[2rem] overflow-hidden shadow-[0_0_50px_rgba(30,27,75,0.8)] border border-white/10 group">
+                
+                <!-- Background Image (img1.png) -->
+                <!-- A escala no hover cria dinamismo -->
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-[1.5s] ease-out group-hover:scale-110" style="background-image: url('img1.png');"></div>
+                
+                <!-- OVERLAYS PARA ADEQUAÇÃO AO BRANDBOOK E OCULTAÇÃO DOS TEXTOS ORIGINAIS -->
+                <!-- Color Grade Brandbook (Tom Púrpura) -->
+                <div class="absolute inset-0 bg-akeos-purple/20 mix-blend-color"></div>
+                <!-- Degrade Escuro no Topo para Esconder Título Original e dar Contraste -->
+                <div class="absolute top-0 left-0 right-0 h-[50%] bg-gradient-to-b from-akeos-dark via-akeos-dark/90 to-transparent"></div>
+                <!-- Degrade Escuro no Rodapé para Esconder Texto Original e Enquadrar CTA -->
+                <div class="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-akeos-dark via-akeos-dark/95 to-transparent"></div>
+
+                <!-- CONTEÚDO HTML DO BRANDBOOK -->
+                <div class="relative h-full w-full flex flex-col justify-between p-7 sm:p-10">
+                    
+                    <!-- Topo -->
+                    <div class="flex flex-col reveal-up" style="animation-delay: 0.1s;">
+                        <!-- Mini Logo Akeos -->
+                        <div class="flex items-center gap-3 mb-5 pl-1">
+                            <div class="w-8 h-8 rounded-lg bg-akeos-purple flex items-center justify-center font-head font-bold text-white shadow-premium">A</div>
+                            <span class="font-head font-bold text-lg tracking-tight text-white/90">Akeos</span>
+                        </div>
+
+                        <!-- Título (Autoridade & Call out) -->
+                        <h1 class="font-head font-black text-[2.75rem] sm:text-5xl text-white tracking-tight uppercase leading-[0.95] drop-shadow-2xl">
+                            Reprovar <span class="block mt-1">por <span class="text-akeos-yellow text-glow border-b-[5px] border-akeos-yellow pb-1 inline-block">Ética?</span></span>
+                        </h1>
+                    </div>
+
+                    <!-- Rodapé (Card Glassmorphism & CTA) -->
+                    <div class="reveal-up" style="animation-delay: 0.3s;">
+                        <div class="bg-[#2D2A4B]/40 backdrop-blur-xl border border-white/10 p-6 sm:p-7 rounded-2xl shadow-premium relative overflow-hidden group-hover:bg-[#2D2A4B]/60 transition-colors duration-500">
+                            <!-- Efeito Sutil de Glow dentro do Card -->
+                            <div class="absolute -top-10 -right-10 w-24 h-24 bg-akeos-yellow rounded-full blur-[40px] opacity-20"></div>
+                            
+                            <!-- Cópia -->
+                            <p class="font-body text-base sm:text-lg text-white mb-6 relative z-10 font-light tracking-wide">
+                                Tropeçar no básico <strong class="text-akeos-yellow font-bold">custa sua aprovação.</strong>
+                            </p>
+                            
+                            <!-- Botão de Ação -->
+                            <button class="relative z-10 px-6 py-4 bg-akeos-yellow text-akeos-dark font-head font-bold text-sm sm:text-base rounded-xl shadow-glow hover:bg-white hover:text-akeos-purple hover:-translate-y-1 transition-all duration-300 w-full uppercase tracking-wider flex items-center justify-center gap-3">
+                                Garantir Aprovação
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 2: Contexto e Justificativa (Sidebar) -->
+        <div class="w-full lg:w-1/2 flex flex-col justify-center text-left z-10 reveal-up" style="animation-delay: 0.5s;">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-akeos-purple/20 text-purple-300 rounded-lg text-xs font-bold font-head uppercase tracking-widest mb-6 w-max border border-akeos-purple/30">
+                <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                Variação Aprovada
+            </div>
+            
+            <h2 class="font-head font-black text-4xl sm:text-5xl text-white mb-5 tracking-tight">Nova <span class="text-akeos-yellow">Direção de Arte.</span></h2>
+            
+            <p class="text-gray-400 font-body mb-8 text-base sm:text-lg leading-relaxed font-light">
+                O criativo original foi transformado em um banner de alta conversão. Utilizamos máscaras de contraste com <strong>Dark Navy</strong> e <strong>Akeos Purple</strong> para modernizar a imagem bruta, sobrepondo a tipografia oficial do brandbook para garantir clareza e autoridade institucional.
+            </p>
+            
+            <div class="space-y-4">
+                <!-- Point 1 -->
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-akeos-dark flex-shrink-0 flex items-center justify-center border border-akeos-purple/30">
+                        <span class="font-bold text-akeos-yellow font-head text-lg">Aa</span>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-head font-bold text-base mb-1">Hierarquia Tipográfica</h4>
+                        <p class="text-sm text-gray-400 font-body">Fontes <strong>Montserrat Black</strong> propostas para alto impacto do gatilho mental, complementadas por <strong>Poppins</strong> para legibilidade.</p>
+                    </div>
+                </div>
+
+                <!-- Point 2 -->
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-akeos-yellow to-yellow-600 flex-shrink-0 flex items-center justify-center shadow-glow">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-akeos-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-head font-bold text-base mb-1">CTA Extremamente Diretiva</h4>
+                        <p class="text-sm text-gray-400 font-body">Utilização do <strong>Akeos Yellow</strong> (#EAB308) com efeito glow para destacar o botão de ação primária.</p>
+                    </div>
+                </div>
+
+                <!-- Point 3 -->
+                <div class="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur flex-shrink-0 flex items-center justify-center border border-white/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-head font-bold text-base mb-1">Glassmorphism Escuro</h4>
+                        <p class="text-sm text-gray-400 font-body">Blocos de leitura encapsulados em overlays transparentes (blur) que mantém a estética de tecnologia premium e focada.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

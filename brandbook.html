@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akeos | Brandbook Oficial</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS (for premium rapid styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        akeos: {
+                            purple: '#5B21B6',      /* Primary Purple */
+                            dark: '#1E1B4B',        /* Dark Background */
+                            yellow: '#EAB308',      /* Accent CTA Yellow */
+                            gray: '#F3F4F6',        /* Light background */
+                            text: '#1F2937',        /* Main Text */
+                            muted: '#6B7280'        /* Secondary Text */
+                        }
+                    },
+                    fontFamily: {
+                        'head': ['Montserrat', 'sans-serif'],
+                        'body': ['Poppins', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'premium': '0 10px 40px -10px rgba(91,33,182,0.1)',
+                        'glow': '0 0 20px rgba(234, 179, 8, 0.4)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #5B21B6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4C1D95; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #1F2937;
+            background-color: #FAFAFA;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+
+        .color-card {
+            transition: all 0.3s ease;
+        }
+
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+        }
+
+        /* Subtle Grid Pattern for Hero Background */
+        .hero-pattern {
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .section-separator {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(91,33,182,0) 0%, rgba(91,33,182,0.2) 50%, rgba(91,33,182,0) 100%);
+            margin: 4rem 0;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-akeos-yellow selection:text-akeos-dark">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-header px-8 py-4 flex justify-between items-center transition-all">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-akeos-purple flex items-center justify-center font-head font-bold text-white shadow-lg">A</div>
+            <span class="font-head font-bold text-xl tracking-tight text-akeos-purple">Brand<span class="text-akeos-text font-light">book</span></span>
+        </div>
+        <ul class="hidden md:flex gap-8 text-sm font-medium text-akeos-muted">
+            <li><a href="#intro" class="hover:text-akeos-purple transition-colors">1. Introdução</a></li>
+            <li><a href="#logo" class="hover:text-akeos-purple transition-colors">2. Logotipo</a></li>
+            <li><a href="#colors" class="hover:text-akeos-purple transition-colors">3. Cores</a></li>
+            <li><a href="#typography" class="hover:text-akeos-purple transition-colors">4. Tipografia</a></li>
+            <li><a href="#ui" class="hover:text-akeos-purple transition-colors">5. UI & Componentes</a></li>
+        </ul>
+        <a href="#download" class="px-5 py-2 text-sm font-semibold bg-akeos-purple text-white rounded-lg shadow-md hover:bg-akeos-dark transition-all">Baixar Assets</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="intro" class="relative pt-32 pb-24 lg:pt-48 lg:pb-32 overflow-hidden bg-akeos-purple text-white">
+        <!-- Abstract gradient background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-akeos-dark via-akeos-purple to-[#4C1D95]"></div>
+        <div class="absolute inset-0 hero-pattern opacity-30"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-8 lg:px-12 z-10 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-3/5">
+                <span class="uppercase tracking-widest text-akeos-yellow font-bold text-sm mb-4 block">Design System Oficial</span>
+                <h1 class="text-5xl lg:text-7xl font-head font-bold leading-tight mb-6 tracking-tight">
+                    Akeos Plataforma.
+                </h1>
+                <p class="text-lg text-purple-100 font-body leading-relaxed max-w-2xl mb-8 font-light">
+                    O manual definitivo da marca Akeos. Este brandbook serve como a <strong>Single Source of Truth</strong> para desenvolvedores, designers e parceiros estratégicos.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#guidelines" class="px-8 py-3 bg-akeos-yellow text-akeos-dark font-semibold rounded-lg shadow-glow hover:bg-yellow-400 transition-all font-head">Explorar Diretrizes</a>
+                    <a href="#logo" class="px-8 py-3 bg-white/10 backdrop-blur border border-white/20 text-white font-semibold rounded-lg hover:bg-white/20 transition-all font-head">Ver Logotipo</a>
+                </div>
+            </div>
+            
+            <div class="md:w-2/5 flex justify-center lg:justify-end">
+                <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl shadow-2xl inline-block transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <img src="./logo-akeos.webp" alt="Akeos Logo" class="h-16 w-auto object-contain filter brightness-0 invert opacity-90" onerror="this.src='https://via.placeholder.com/300x100.png?text=AKEOS+LOGO'">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 lg:px-12 py-20 pb-40">
+        
+        <!-- INTRO -->
+        <section class="mb-24">
+            <div class="max-w-3xl">
+                <h2 class="text-akeos-purple font-head font-bold text-3xl mb-4">A Essência da Marca</h2>
+                <p class="text-akeos-muted text-lg leading-relaxed mb-6">
+                    A Akeos é uma plataforma de preparação premium dedicada a democratizar o acesso e garantir a excelência no exame da OAB. Nossa identidade visual reflete nossa autoridade educacional, utilizando uma estética limpa, direta e tecnológica.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                    <div class="p-6 bg-white border border-gray-100 rounded-xl shadow-premium">
+                        <div class="w-12 h-12 bg-purple-50 text-akeos-purple rounded-lg flex items-center justify-center mb-4 text-xl">🎓</div>
+                        <h4 class="font-head font-bold text-akeos-dark mb-2">Autoridade</h4>
+                        <p class="text-sm text-akeos-muted">Expressamos profundo conhecimento jurídico sem arrogância, transmitindo confiança.</p>
+                    </div>
+                    <div class="p-6 bg-white border border-gray-100 rounded-xl shadow-premium">
+                        <div class="w-12 h-12 bg-yellow-50 text-akeos-yellow rounded-lg flex items-center justify-center mb-4 text-xl">⚡</div>
+                        <h4 class="font-head font-bold text-akeos-dark mb-2">Diretividade</h4>
+                        <p class="text-sm text-akeos-muted">Nossa comunicação visual é focada, sem distrações, projetada para a aprovação.</p>
+                    </div>
+                    <div class="p-6 bg-white border border-gray-100 rounded-xl shadow-premium">
+                        <div class="w-12 h-12 bg-gray-50 text-akeos-dark rounded-lg flex items-center justify-center mb-4 text-xl">💻</div>
+                        <h4 class="font-head font-bold text-akeos-dark mb-2">Tecnologia</h4>
+                        <p class="text-sm text-akeos-muted">Uso de design moderno, interfaces intuitivas e alta performance em todos os pontos de contato.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 2. LOGOTIPO -->
+        <section id="logo" class="mb-24 scroll-mt-24">
+            <h2 class="font-head font-bold text-3xl text-akeos-dark mb-2">2. Logotipo Oficial</h2>
+            <p class="text-akeos-muted mb-10">Como nossa marca deve ser apresentada ao mundo.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Principal -->
+                <div class="bg-gray-50 rounded-2xl p-10 border border-gray-100 flex flex-col items-center justify-center min-h-[300px]">
+                    <img src="./logo-akeos.webp" alt="Akeos Logo Original" class="h-16 w-auto object-contain mb-8 mix-blend-multiply">
+                    <span class="text-xs uppercase tracking-widest font-semibold text-gray-400">Uso Principal (Fundo Claro)</span>
+                </div>
+                
+                <!-- Negativo -->
+                <div class="bg-akeos-purple rounded-2xl p-10 flex flex-col items-center justify-center min-h-[300px] shadow-premium">
+                    <img src="./logo-akeos.webp" alt="Akeos Logo Negativa" class="h-16 w-auto object-contain mb-8 filter brightness-0 invert">
+                    <span class="text-xs uppercase tracking-widest font-semibold text-purple-200">Uso Negativo (Fundo Escuro)</span>
+                </div>
+            </div>
+
+            <!-- Clear Space & Regras -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+                <div class="md:col-span-2 bg-white p-8 rounded-2xl border border-gray-100">
+                    <h4 class="font-head font-bold text-lg mb-4">Área de Suspiro (Clear Space)</h4>
+                    <p class="text-sm text-akeos-muted mb-6">Mantenha sempre uma margem protetora ao redor da logo equivalente à altura da letra "A". Não insira outros elementos gráficos nesta área.</p>
+                    <div class="border-2 border-dashed border-gray-200 p-8 flex justify-center bg-gray-50 relative">
+                        <div class="absolute inset-0 border-[24px] border-purple-100/50"></div>
+                        <img src="./logo-akeos.webp" alt="Akeos Clear Space" class="h-12 mix-blend-multiply z-10 relative">
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-gray-100">
+                    <h4 class="font-head font-bold text-lg mb-4">Usos Incorretos</h4>
+                    <ul class="space-y-4 text-sm text-akeos-muted">
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">×</span> Não altere a proporção.
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">×</span> Não aplique sombras na logo original.
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">×</span> Não mude a cor para cores não listadas na paleta.
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">×</span> Não rotacione o símbolo.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 3. COLOR PALETTE -->
+        <section id="colors" class="mb-24 scroll-mt-24">
+            <h2 class="font-head font-bold text-3xl text-akeos-dark mb-2">3. Paleta de Cores</h2>
+            <p class="text-akeos-muted mb-10">O sistema cromático focado em hierarquia, legibilidade e conversões.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Color 1 -->
+                <div class="color-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <div class="h-32 bg-akeos-purple w-full"></div>
+                    <div class="p-5">
+                        <h4 class="font-head font-bold text-akeos-dark">Akeos Purple</h4>
+                        <p class="text-xs text-akeos-muted mb-3">#5B21B6 • Primária</p>
+                        <div class="text-[11px] font-mono whitespace-pre text-gray-500 bg-gray-50 p-2 rounded">RGB: 91, 33, 182
+HSL: 263°, 70%, 42%</div>
+                    </div>
+                </div>
+
+                <!-- Color 2 -->
+                <div class="color-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <div class="h-32 bg-akeos-dark w-full"></div>
+                    <div class="p-5">
+                        <h4 class="font-head font-bold text-akeos-dark">Dark Navy</h4>
+                        <p class="text-xs text-akeos-muted mb-3">#1E1B4B • Background Hero</p>
+                        <div class="text-[11px] font-mono whitespace-pre text-gray-500 bg-gray-50 p-2 rounded">RGB: 30, 27, 75
+HSL: 244°, 47%, 20%</div>
+                    </div>
+                </div>
+
+                <!-- Color 3 -->
+                <div class="color-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <div class="h-32 bg-akeos-yellow w-full"></div>
+                    <div class="p-5">
+                        <h4 class="font-head font-bold text-akeos-dark">Akeos Yellow</h4>
+                        <p class="text-xs text-akeos-muted mb-3">#EAB308 • Destaque/CTA</p>
+                        <div class="text-[11px] font-mono whitespace-pre text-gray-500 bg-gray-50 p-2 rounded">RGB: 234, 179, 8
+HSL: 45°, 93%, 47%</div>
+                    </div>
+                </div>
+
+                <!-- Color 4 -->
+                <div class="color-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <div class="h-32 bg-gray-100 w-full border-b border-gray-200"></div>
+                    <div class="p-5">
+                        <h4 class="font-head font-bold text-akeos-dark">Neutral Gray</h4>
+                        <p class="text-xs text-akeos-muted mb-3">#F3F4F6 • Fundo UI</p>
+                        <div class="text-[11px] font-mono whitespace-pre text-gray-500 bg-gray-50 p-2 rounded">RGB: 243, 244, 246
+HSL: 220°, 14%, 96%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Usage Map -->
+            <div class="mt-12 bg-slate-50 p-8 rounded-2xl">
+                <h4 class="font-head font-bold text-lg mb-6">Regras de Contraste</h4>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1 bg-akeos-purple p-6 rounded-lg text-white text-center">
+                        <span class="block font-head font-bold">Texto Branco</span>
+                        <span class="text-xs opacity-70">Aprovado AA sobre #5B21B6</span>
+                    </div>
+                    <div class="flex-1 bg-akeos-yellow p-6 rounded-lg text-akeos-dark text-center shadow-glow">
+                        <span class="block font-head font-bold">Texto Escuro (#1F2937)</span>
+                        <span class="text-xs opacity-70">Aprovado AA sobre #EAB308</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 4. TYPOGRAPHY -->
+        <section id="typography" class="mb-24 scroll-mt-24">
+            <h2 class="font-head font-bold text-3xl text-akeos-dark mb-2">4. Tipografia</h2>
+            <p class="text-akeos-muted mb-10">Combinação elegante de Montserrat para alto impacto e Poppins para legibilidade técnica.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Headings Font -->
+                <div>
+                    <div class="flex justify-between items-end mb-4 border-b border-gray-200 pb-2">
+                        <h3 class="font-head font-bold text-5xl">Montserrat</h3>
+                        <span class="text-xs uppercase font-bold text-akeos-purple bg-purple-50 px-2 py-1 rounded">Headings</span>
+                    </div>
+                    <p class="text-sm text-akeos-muted mb-6">Utilizada em todos os títulos (H1 ao H6), banners e botões call-to-action. Transmite autoridade institucional.</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-[10px] text-gray-400 font-mono mb-1">H1 / Bold / 48px</div>
+                            <h1 class="font-head font-bold text-5xl text-akeos-dark truncate">Aprovação OAB</h1>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 font-mono mb-1">H2 / SemiBold / 36px</div>
+                            <h2 class="font-head font-semibold text-4xl text-akeos-dark truncate">Conheça nossos planos</h2>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 font-mono mb-1">H3 / Medium / 24px</div>
+                            <h3 class="font-head font-medium text-2xl text-akeos-dark truncate">Aulão de Ética Premium</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body Font -->
+                <div>
+                    <div class="flex justify-between items-end mb-4 border-b border-gray-200 pb-2">
+                        <h3 class="font-body font-semibold text-5xl">Poppins</h3>
+                        <span class="text-xs uppercase font-bold text-akeos-muted bg-gray-100 px-2 py-1 rounded">Body & UI</span>
+                    </div>
+                    <p class="text-sm text-akeos-muted mb-6">Aplicada em parágrafos, descrições longas, inputs e textos auxiliares de UI. Garante leitura fluida em telas mobile.</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="text-[10px] text-gray-400 font-mono mb-1">Lead / Regular / 18px</div>
+                            <p class="font-body text-lg text-akeos-text">Esta é uma introdução de seção que guia o usuário pela plataforma, evidenciando as vantagens competitivas da metodologia de aprovação.</p>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 font-mono mb-1">Body / Regular / 16px</div>
+                            <p class="font-body text-base text-akeos-muted">Texto base para descritivos de plataforma e conteúdos instrucionais. Deve ser mantido com line-height 1.6x para garantir respiro ótimo entre as linhas de leitura.</p>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 font-mono mb-1">Caption / Medium / 12px</div>
+                            <p class="font-body text-xs font-medium text-gray-400">Termos de uso e diretrizes jurídicas da plataforma educacional.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-separator"></div>
+
+        <!-- 5. UI COMPONENTS -->
+        <section id="ui" class="mb-24 scroll-mt-24">
+            <h2 class="font-head font-bold text-3xl text-akeos-dark mb-2">5. Componentes de UI</h2>
+            <p class="text-akeos-muted mb-10">Os blocos de construção para interfaces modernas da Akeos. Todos com cantos levemente arredondados (.rounded-lg).</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Buttons -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-head font-bold text-xl mb-6 border-b pb-2">Botões <span class="text-sm font-normal text-gray-400">(Ações)</span></h3>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 mb-3 uppercase">Primary CTA (Yellow)</h4>
+                            <div class="flex gap-4 items-center">
+                                <button class="px-6 py-3 bg-akeos-yellow text-akeos-dark font-head font-bold rounded-lg shadow-glow hover:bg-yellow-400 transition-colors">SEJA ALUNO</button>
+                                <button class="px-6 py-3 bg-akeos-yellow/50 text-akeos-dark/50 font-head font-bold rounded-lg cursor-not-allowed">DISABLED</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 mb-3 uppercase">Secondary / Outline</h4>
+                            <div class="flex gap-4 items-center">
+                                <button class="px-6 py-3 border-2 border-akeos-purple text-akeos-purple bg-white hover:bg-purple-50 font-head font-semibold rounded-lg transition-colors">Ver Planos</button>
+                            </div>
+                        </div>
+
+                        <div class="p-6 bg-akeos-dark rounded-xl">
+                            <h4 class="text-xs font-bold text-gray-400 mb-3 uppercase">Ghost / Hero</h4>
+                            <button class="px-6 py-3 bg-white/10 border border-white/20 text-white hover:bg-white/20 font-head font-semibold rounded-lg transition-colors backdrop-blur-sm">Assista ao Vídeo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards & Inputs -->
+                <div class="space-y-6">
+                    <!-- Cards -->
+                    <div class="bg-white p-8 rounded-2xl shadow-premium border border-gray-100">
+                        <h3 class="font-head font-bold text-xl mb-4">Cards de Conteúdo</h3>
+                        <p class="text-sm text-akeos-muted mb-4">Utilizados para apresentar planos ou disciplinas. Possuem <code>shadow-md</code> ou <code>shadow-premium</code> em hover.</p>
+                        
+                        <div class="p-5 border border-gray-100 rounded-xl bg-white shadow-sm hover:shadow-premium transition-shadow cursor-pointer relative overflow-hidden group">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-akeos-purple scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <span class="text-xs font-bold text-akeos-purple bg-purple-50 px-2 py-1 rounded">OAB 2ª Fase</span>
+                                    <h4 class="font-head font-bold mt-2">Ética Profissional</h4>
+                                </div>
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-akeos-purple group-hover:bg-akeos-purple group-hover:text-white transition-colors">
+                                    →
+                                </div>
+                            </div>
+                            <p class="text-sm text-akeos-muted">Aprenda os pilares fundamentais abordados nas provas da ordem.</p>
+                        </div>
+                    </div>
+
+                    <!-- Input -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <h3 class="font-head font-bold text-xl mb-4">Campos de Formulário</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-akeos-dark mb-1">E-mail de Acesso</label>
+                                <input type="email" placeholder="aluno@email.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-akeos-purple focus:ring-2 focus:ring-purple-100 transition-all text-sm">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-akeos-dark text-white py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-8 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <img src="./logo-akeos.webp" alt="Akeos" class="h-8 filter brightness-0 invert">
+                <span class="text-sm text-gray-400 border-l border-gray-700 pl-4">Digital Design System © 2026</span>
+            </div>
+            <div class="text-sm text-gray-400">
+                <p>Criado e mantido sob os mais altos padrões de design jurídico e educacional.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Adiciona efeito simples ao header na rolagem para fixar a barrinha superior.
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('py-4', 'py-2');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('py-2', 'py-4');
+            }
+        });
+    </script>
+</body>
+</html>

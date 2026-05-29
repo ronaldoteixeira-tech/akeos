@@ -1,1344 +1,1382 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akeos | Aprovação Inteligente</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-:root {
-  --purple: #5B21B6;
-  --purple-deep: #4C1D95;
-  --navy: #1E1B4B;
-  --yellow: #EAB308;
-  --gray: #F3F4F6;
-  --text: #1F2937;
-  --muted: #6B7280;
-  --white: #FFFFFF;
-  --line: #E5E7EB;
-  --heading: "Montserrat", Arial, sans-serif;
-  --body: "Poppins", Arial, sans-serif;
-  --ease: cubic-bezier(.2, .8, .2, 1);
-  --su: min(1vw, 1.7778vh);
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  background: var(--navy);
-  color: var(--text);
-  font-family: var(--body);
-}
-
-#viewport {
-  position: relative;
-  width: min(calc(100vw - 36px), calc((100vh - 36px) * 16 / 9));
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: var(--white);
-  box-shadow: 0 30px 90px rgba(4, 3, 17, .42);
-}
-
-#deck {
-  height: 100%;
-  display: flex;
-  transform: translateX(0);
-  transition: transform .6s var(--ease);
-}
-
-.slide {
-  position: relative;
-  isolation: isolate;
-  flex: 0 0 100%;
-  height: 100%;
-  overflow: hidden;
-  padding: clamp(36px, calc(var(--su) * 5.5), 70px);
-}
-
-.slide::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  pointer-events: none;
-}
-
-.light {
-  background: var(--white);
-}
-
-.soft {
-  background: var(--gray);
-}
-
-.dark {
-  color: var(--white);
-  background: linear-gradient(128deg, var(--navy), var(--purple-deep));
-}
-
-.dots::after {
-  background-image: radial-gradient(circle, rgba(255, 255, 255, .11) 1px, transparent 1px);
-  background-size: 27px 27px;
-  opacity: .7;
-}
-
-.brand {
-  position: absolute;
-  z-index: 4;
-  top: clamp(22px, calc(var(--su) * 2.6), 34px);
-  right: clamp(24px, calc(var(--su) * 3.4), 44px);
-  padding: clamp(13px, calc(var(--su) * 1.35), 18px) clamp(17px, calc(var(--su) * 1.65), 22px);
-  border-radius: 13px;
-  background: var(--navy);
-}
-
-.dark .brand {
-  background: rgba(255, 255, 255, .08);
-  border: 1px solid rgba(255, 255, 255, .12);
-}
-
-.brand img {
-  display: block;
-  width: clamp(105px, calc(var(--su) * 12), 154px);
-  height: auto;
-  object-fit: contain;
-}
-
-.kicker {
-  display: inline-flex;
-  margin: 0 0 clamp(15px, calc(var(--su) * 1.7), 22px);
-  border-radius: 99px;
-  padding: 7px 15px;
-  background: rgba(91, 33, 182, .09);
-  color: var(--purple);
-  font-family: var(--heading);
-  font-size: clamp(10px, calc(var(--su) * .88), 12px);
-  font-weight: 700;
-  letter-spacing: .06em;
-}
-
-.dark .kicker {
-  background: rgba(234, 179, 8, .14);
-  color: var(--yellow);
-  border: 1px solid rgba(234, 179, 8, .25);
-}
-
-h1,
-h2,
-h3,
-p,
-ul,
-li {
-  margin: 0;
-  padding: 0;
-}
-
-h1,
-h2,
-h3 {
-  color: var(--navy);
-  font-family: var(--heading);
-}
-
-.dark h1,
-.dark h2,
-.dark h3 {
-  color: var(--white);
-}
-
-.title {
-  max-width: 880px;
-  font-size: clamp(30px, calc(var(--su) * 3.45), 45px);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -.035em;
-}
-
-.subtitle {
-  margin-top: clamp(10px, calc(var(--su) * 1.2), 16px);
-  max-width: 760px;
-  color: var(--muted);
-  font-size: clamp(15px, calc(var(--su) * 1.42), 19px);
-  font-weight: 400;
-  line-height: 1.55;
-}
-
-.dark .subtitle {
-  color: rgba(255, 255, 255, .72);
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  max-width: min(890px, calc(100% - 145px));
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.body-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(24px, calc(var(--su) * 4.2), 52px);
-  row-gap: clamp(8px, calc(var(--su) * .85), 12px);
-  margin-top: clamp(20px, calc(var(--su) * 2.15), 28px);
-  width: min(760px, 100%);
-  list-style: none;
-}
-
-.body-grid.one {
-  grid-template-columns: 1fr;
-  max-width: 680px;
-}
-
-.body-grid li {
-  position: relative;
-  padding-left: 22px;
-  color: var(--text);
-  font-size: clamp(14px, calc(var(--su) * 1.3), 17px);
-  line-height: 1.55;
-}
-
-.body-grid li::before {
-  content: "";
-  position: absolute;
-  top: .65em;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--yellow);
-  box-shadow: 0 0 0 5px rgba(234, 179, 8, .12);
-}
-
-.lead {
-  margin-top: clamp(20px, calc(var(--su) * 2), 26px);
-  color: var(--muted);
-  font-size: clamp(14px, calc(var(--su) * 1.25), 17px);
-  line-height: 1.55;
-}
-
-.line-stack {
-  display: grid;
-  gap: clamp(8px, calc(var(--su) * .75), 12px);
-  margin-top: clamp(20px, calc(var(--su) * 2.1), 28px);
-  width: min(720px, 100%);
-}
-
-.line-stack p {
-  padding: clamp(10px, calc(var(--su) * .9), 13px) clamp(14px, calc(var(--su) * 1.25), 18px);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--gray);
-  color: var(--text);
-  font-size: clamp(13px, calc(var(--su) * 1.2), 16px);
-  line-height: 1.4;
-}
-
-.note {
-  margin-top: clamp(23px, calc(var(--su) * 2.6), 34px);
-  width: min(820px, 100%);
-  border-left: 4px solid var(--yellow);
-  border-radius: 0 13px 13px 0;
-  padding: clamp(14px, calc(var(--su) * 1.35), 18px) clamp(18px, calc(var(--su) * 1.7), 23px);
-  background: var(--navy);
-}
-
-.note p {
-  color: var(--white);
-  font-family: var(--heading);
-  font-size: clamp(14px, calc(var(--su) * 1.35), 18px);
-  font-weight: 600;
-  line-height: 1.45;
-}
-
-.note.gold {
-  border-left-color: var(--purple);
-  background: var(--yellow);
-}
-
-.note.gold p {
-  color: var(--navy);
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-}
-
-.slide.active .reveal {
-  animation: enter .62s var(--ease) forwards;
-}
-
-.delay-1 {
-  animation-delay: .08s !important;
-}
-
-.delay-2 {
-  animation-delay: .16s !important;
-}
-
-.delay-3 {
-  animation-delay: .24s !important;
-}
-
-@keyframes enter {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Cover */
-.cover {
-  display: flex;
-  align-items: center;
-  background:
-    radial-gradient(circle at 83% 18%, rgba(234, 179, 8, .13), transparent 24%),
-    radial-gradient(circle at 78% 76%, rgba(91, 33, 182, .46), transparent 34%),
-    linear-gradient(128deg, var(--navy) 0%, var(--purple-deep) 62%, var(--purple) 100%);
-}
-
-.cover-copy {
-  position: relative;
-  z-index: 2;
-  width: 76%;
-}
-
-.cover h1 {
-  max-width: 780px;
-  font-size: clamp(42px, calc(var(--su) * 6.2), 80px);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -.055em;
-}
-
-.cover h1 span:last-child {
-  color: var(--yellow);
-}
-
-.cover h2 {
-  margin-top: clamp(16px, calc(var(--su) * 2.1), 27px);
-  max-width: 660px;
-  color: rgba(255, 255, 255, .77);
-  font-family: var(--body);
-  font-size: clamp(15px, calc(var(--su) * 1.46), 20px);
-  font-weight: 300;
-  line-height: 1.65;
-}
-
-.tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: clamp(26px, calc(var(--su) * 3.2), 42px);
-}
-
-.tag-row p {
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 10px;
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, .07);
-  color: rgba(255, 255, 255, .82);
-  font-size: clamp(11px, calc(var(--su) * 1.03), 14px);
-}
-
-/* Agenda */
-.agenda .content {
-  max-width: calc(100% - 120px);
-}
-
-.pillar-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(12px, calc(var(--su) * 1.65), 22px);
-  margin-top: clamp(26px, calc(var(--su) * 3), 39px);
-  width: 100%;
-}
-
-.pillar-cards article {
-  min-height: clamp(116px, calc(var(--su) * 11), 145px);
-  display: flex;
-  align-items: flex-end;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  padding: clamp(17px, calc(var(--su) * 1.8), 24px);
-  background: var(--white);
-  box-shadow: 0 12px 36px rgba(91, 33, 182, .07);
-}
-
-.pillar-cards h3 {
-  font-size: clamp(14px, calc(var(--su) * 1.35), 18px);
-  font-weight: 700;
-  line-height: 1.42;
-}
-
-/* Chapter */
-.chapter {
-  display: grid;
-  place-items: center;
-  text-align: center;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(234, 179, 8, .08), transparent 29%),
-    linear-gradient(132deg, var(--navy), var(--purple));
-}
-
-.chapter-copy {
-  position: relative;
-  z-index: 2;
-  max-width: 920px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.chapter h2 {
-  font-size: clamp(35px, calc(var(--su) * 5.1), 66px);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -.045em;
-}
-
-.chapter .subtitle {
-  margin-top: clamp(16px, calc(var(--su) * 2), 27px);
-  font-size: clamp(15px, calc(var(--su) * 1.58), 21px);
-}
-
-.chapter-rule {
-  width: 62px;
-  height: 4px;
-  margin: clamp(18px, calc(var(--su) * 2.25), 29px) 0 0;
-  border-radius: 4px;
-  background: var(--yellow);
-}
-
-/* Human-centered photo slides */
-.scene {
-  display: block;
-  object-fit: cover;
-}
-
-.photo-cover {
-  padding: 0;
-  color: var(--white);
-  background: var(--navy);
-}
-
-.photo-cover::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(30, 27, 75, .98) 0%, rgba(30, 27, 75, .92) 34%, rgba(30, 27, 75, .50) 56%, rgba(30, 27, 75, .12) 100%),
-    linear-gradient(0deg, rgba(30, 27, 75, .28), transparent 34%);
-}
-
-.photo-cover .scene {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.photo-cover .brand {
-  background: rgba(30, 27, 75, .55);
-  border: 1px solid rgba(255, 255, 255, .18);
-  backdrop-filter: blur(10px);
-}
-
-.photo-cover .content {
-  z-index: 2;
-  width: min(525px, 46%);
-  max-width: none;
-  margin-left: clamp(36px, calc(var(--su) * 5.5), 70px);
-  align-items: flex-start;
-}
-
-.photo-cover .kicker {
-  border: 1px solid rgba(234, 179, 8, .25);
-  background: rgba(234, 179, 8, .15);
-  color: var(--yellow);
-}
-
-.photo-cover .title {
-  color: var(--white);
-  font-size: clamp(27px, calc(var(--su) * 3.05), 40px);
-}
-
-.photo-cover .lead,
-.photo-cover .subtitle {
-  color: rgba(255, 255, 255, .68);
-}
-
-.photo-cover .body-grid {
-  grid-template-columns: 1fr;
-  width: 100%;
-  row-gap: 8px;
-}
-
-.photo-cover .body-grid li {
-  color: rgba(255, 255, 255, .93);
-}
-
-.photo-cover .note {
-  width: 100%;
-  border-left-color: var(--yellow);
-  background: rgba(255, 255, 255, .09);
-  backdrop-filter: blur(10px);
-}
-
-.photo-panel {
-  background: var(--gray);
-}
-
-.photo-panel::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 54%;
-  background: linear-gradient(90deg, var(--gray) 0%, rgba(243, 244, 246, 0) 15%);
-  pointer-events: none;
-}
-
-.photo-panel .scene {
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 52.5%;
-  height: 100%;
-}
-
-.photo-panel .content {
-  z-index: 2;
-  max-width: min(520px, 46%);
-}
-
-.photo-panel .title {
-  font-size: clamp(26px, calc(var(--su) * 2.85), 38px);
-}
-
-.photo-panel .body-grid {
-  grid-template-columns: 1fr;
-  width: 100%;
-}
-
-.photo-panel .note {
-  width: 100%;
-}
-
-.photo-panel .brand {
-  border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(30, 27, 75, .92);
-}
-
-/* Structure hero */
-.facts {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(12px, calc(var(--su) * 1.5), 20px);
-  width: min(800px, 100%);
-  margin-top: clamp(25px, calc(var(--su) * 3), 38px);
-}
-
-.facts p {
-  min-height: clamp(78px, calc(var(--su) * 8.2), 106px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, .13);
-  border-radius: 14px;
-  padding: 18px;
-  background: rgba(255, 255, 255, .07);
-  color: var(--white);
-  font-family: var(--heading);
-  font-size: clamp(16px, calc(var(--su) * 1.6), 22px);
-  font-weight: 700;
-  text-align: center;
-}
-
-/* Table */
-.list-table {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 12px;
-  margin-top: clamp(14px, calc(var(--su) * 1.4), 18px);
-  width: min(880px, 100%);
-}
-
-.list-table p {
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  padding: clamp(7px, calc(var(--su) * .62), 9px) clamp(11px, calc(var(--su) * .9), 13px);
-  background: var(--white);
-  color: var(--text);
-  font-size: clamp(11px, calc(var(--su) * 1.04), 14px);
-  line-height: 1.42;
-}
-
-/* Warning chips */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: clamp(22px, calc(var(--su) * 2.4), 31px);
-  width: min(860px, 100%);
-}
-
-.chips p {
-  border: 1px solid rgba(234, 179, 8, .38);
-  border-radius: 10px;
-  padding: 11px 17px;
-  background: rgba(234, 179, 8, .1);
-  color: var(--navy);
-  font-family: var(--heading);
-  font-size: clamp(13px, calc(var(--su) * 1.16), 16px);
-  font-weight: 600;
-}
-
-/* Closing */
-.closing {
-  display: grid;
-  place-items: center;
-  text-align: center;
-  background:
-    radial-gradient(circle at 50% 28%, rgba(234, 179, 8, .12), transparent 23%),
-    linear-gradient(128deg, var(--navy), var(--purple-deep) 66%, var(--purple));
-}
-
-.closing .brand {
-  position: static;
-  margin: 0 0 clamp(17px, calc(var(--su) * 1.8), 24px);
-  padding: 0;
-  border: 0;
-  background: transparent;
-}
-
-.closing .brand img {
-  width: clamp(190px, calc(var(--su) * 20), 258px);
-}
-
-.closing-copy {
-  position: relative;
-  z-index: 2;
-  width: min(850px, 90%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.closing h2 {
-  font-size: clamp(33px, calc(var(--su) * 4.65), 60px);
-  font-weight: 800;
-  line-height: 1.14;
-  letter-spacing: -.045em;
-}
-
-.closing h2 + h2 {
-  color: var(--yellow);
-}
-
-.closing .lead {
-  color: rgba(255, 255, 255, .7);
-}
-
-.closing ul {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 14px;
-  list-style: none;
-}
-
-.closing li {
-  border-radius: 99px;
-  padding: 8px 15px;
-  background: rgba(234, 179, 8, .12);
-  color: var(--yellow);
-  font-size: clamp(11px, calc(var(--su) * 1), 14px);
-}
-
-.closing .note {
-  margin-top: clamp(18px, calc(var(--su) * 2.15), 28px);
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-left: 4px solid var(--yellow);
-  background: rgba(255, 255, 255, .07);
-}
-
-.closing-footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 9px;
-  margin-top: clamp(18px, calc(var(--su) * 2), 26px);
-}
-
-.closing-footer p {
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 8px;
-  padding: 8px 14px;
-  color: rgba(255, 255, 255, .72);
-  font-size: clamp(10px, calc(var(--su) * .95), 13px);
-}
-
-/* Presentation controls */
-#progress {
-  position: absolute;
-  z-index: 20;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  width: calc(100% / 27);
-  background: var(--yellow);
-  transition: width .4s var(--ease);
-}
-
-#counter {
-  position: absolute;
-  z-index: 20;
-  left: clamp(18px, calc(var(--su) * 2.8), 36px);
-  bottom: clamp(15px, calc(var(--su) * 2.2), 28px);
-  color: rgba(30, 27, 75, .36);
-  font-family: var(--heading);
-  font-size: clamp(10px, calc(var(--su) * .86), 12px);
-  font-weight: 700;
-  letter-spacing: .08em;
-}
-
-#viewport[data-tone="dark"] #counter {
-  color: rgba(255, 255, 255, .45);
-}
-
-#controls {
-  position: absolute;
-  z-index: 20;
-  right: clamp(16px, calc(var(--su) * 2.4), 31px);
-  bottom: clamp(13px, calc(var(--su) * 1.8), 23px);
-  display: flex;
-  gap: 8px;
-}
-
-#controls button {
-  width: clamp(34px, calc(var(--su) * 3.25), 42px);
-  height: clamp(34px, calc(var(--su) * 3.25), 42px);
-  border: 1px solid rgba(91, 33, 182, .15);
-  border-radius: 50%;
-  background: var(--white);
-  color: var(--purple);
-  cursor: pointer;
-  transition: transform .18s ease, background .18s ease, opacity .18s ease;
-}
-
-#controls button:hover {
-  transform: translateY(-2px);
-  background: var(--gray);
-}
-
-#controls button:disabled {
-  cursor: default;
-  opacity: .3;
-  transform: none;
-}
-
-#viewport[data-tone="dark"] #controls button {
-  border-color: rgba(255, 255, 255, .18);
-  background: rgba(255, 255, 255, .08);
-  color: var(--white);
-}
-
-#viewport[data-tone="dark"] #controls button:hover {
-  background: rgba(255, 255, 255, .16);
-}
-
-#controls svg {
-  display: block;
-  margin: auto;
-}
-
-@media (max-width: 720px) {
-  .brand {
-    display: none;
-  }
-
-  .content,
-  .agenda .content {
-    max-width: 100%;
-  }
-
-  .body-grid,
-  .pillar-cards,
-  .facts,
-  .list-table {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #deck,
-  #progress {
-    transition: none;
-  }
-
-  .slide.active .reveal {
-    animation-duration: 1ms;
-  }
-}
-
-@media print {
-  @page {
-    size: 16in 9in;
-    margin: 0;
-  }
-
-  html,
-  body {
-    height: auto;
-    overflow: visible;
-    display: block;
-    padding: 0;
-    background: var(--white);
-  }
-
-  #viewport {
-    width: 16in;
-    height: 9in;
-    aspect-ratio: auto;
-    overflow: visible;
-    box-shadow: none;
-  }
-
-  #deck {
-    display: block;
-    height: auto;
-    transform: none !important;
-  }
-
-  .slide {
-    width: 16in;
-    height: 9in;
-    break-after: page;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-    animation: none !important;
-  }
-
-  #progress,
-  #counter,
-  #controls {
-    display: none;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akeos | Aprovação Inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --purple: #5B21B6;
+      --purple-deep: #4C1D95;
+      --navy: #1E1B4B;
+      --yellow: #EAB308;
+      --gray: #F3F4F6;
+      --text: #1F2937;
+      --muted: #6B7280;
+      --white: #FFFFFF;
+      --line: #E5E7EB;
+      --heading: "Montserrat", Arial, sans-serif;
+      --body: "Poppins", Arial, sans-serif;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+      --su: min(1vw, 1.7778vh);
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: var(--navy);
+      color: var(--text);
+      font-family: var(--body);
+    }
+
+    #viewport {
+      position: relative;
+      width: min(calc(100vw - 36px), calc((100vh - 36px) * 16 / 9));
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 30px 90px rgba(4, 3, 17, .42);
+    }
+
+    #deck {
+      height: 100%;
+      display: flex;
+      transform: translateX(0);
+      transition: transform .6s var(--ease);
+    }
+
+    .slide {
+      position: relative;
+      isolation: isolate;
+      flex: 0 0 100%;
+      height: 100%;
+      overflow: hidden;
+      padding: clamp(36px, calc(var(--su) * 5.5), 70px);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .light {
+      background: var(--white);
+    }
+
+    .soft {
+      background: var(--gray);
+    }
+
+    .dark {
+      color: var(--white);
+      background: linear-gradient(128deg, var(--navy), var(--purple-deep));
+    }
+
+    .dots::after {
+      background-image: radial-gradient(circle, rgba(255, 255, 255, .11) 1px, transparent 1px);
+      background-size: 27px 27px;
+      opacity: .7;
+    }
+
+    .brand {
+      position: absolute;
+      z-index: 4;
+      top: clamp(22px, calc(var(--su) * 2.6), 34px);
+      right: clamp(24px, calc(var(--su) * 3.4), 44px);
+      padding: clamp(13px, calc(var(--su) * 1.35), 18px) clamp(17px, calc(var(--su) * 1.65), 22px);
+      border-radius: 13px;
+      background: var(--navy);
+    }
+
+    .dark .brand {
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .brand img {
+      display: block;
+      width: clamp(105px, calc(var(--su) * 12), 154px);
+      height: auto;
+      object-fit: contain;
+    }
+
+    .kicker {
+      display: inline-flex;
+      margin: 0 0 clamp(15px, calc(var(--su) * 1.7), 22px);
+      border-radius: 99px;
+      padding: 7px 15px;
+      background: rgba(91, 33, 182, .09);
+      color: var(--purple);
+      font-family: var(--heading);
+      font-size: clamp(10px, calc(var(--su) * .88), 12px);
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+
+    .dark .kicker {
+      background: rgba(234, 179, 8, .14);
+      color: var(--yellow);
+      border: 1px solid rgba(234, 179, 8, .25);
+    }
+
+    h1,
+    h2,
+    h3,
+    p,
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--navy);
+      font-family: var(--heading);
+    }
+
+    .dark h1,
+    .dark h2,
+    .dark h3 {
+      color: var(--white);
+    }
+
+    .title {
+      max-width: 880px;
+      font-size: clamp(30px, calc(var(--su) * 3.45), 45px);
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+
+    .subtitle {
+      margin-top: clamp(10px, calc(var(--su) * 1.2), 16px);
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(15px, calc(var(--su) * 1.42), 19px);
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    .dark .subtitle {
+      color: rgba(255, 255, 255, .72);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      max-width: min(890px, calc(100% - 145px));
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .body-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(24px, calc(var(--su) * 4.2), 52px);
+      row-gap: clamp(8px, calc(var(--su) * .85), 12px);
+      margin-top: clamp(20px, calc(var(--su) * 2.15), 28px);
+      width: min(760px, 100%);
+      list-style: none;
+    }
+
+    .body-grid.one {
+      grid-template-columns: 1fr;
+      max-width: 680px;
+    }
+
+    .body-grid li {
+      position: relative;
+      padding-left: 22px;
+      color: var(--text);
+      font-size: clamp(14px, calc(var(--su) * 1.3), 17px);
+      line-height: 1.55;
+    }
+
+    .body-grid li::before {
+      content: "";
+      position: absolute;
+      top: .65em;
+      left: 0;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 0 5px rgba(234, 179, 8, .12);
+    }
+
+    .lead {
+      margin-top: clamp(20px, calc(var(--su) * 2), 26px);
+      color: var(--muted);
+      font-size: clamp(14px, calc(var(--su) * 1.25), 17px);
+      line-height: 1.55;
+    }
+
+    .line-stack {
+      display: grid;
+      gap: clamp(8px, calc(var(--su) * .75), 12px);
+      margin-top: clamp(20px, calc(var(--su) * 2.1), 28px);
+      width: min(720px, 100%);
+    }
+
+    .line-stack p {
+      padding: clamp(10px, calc(var(--su) * .9), 13px) clamp(14px, calc(var(--su) * 1.25), 18px);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--gray);
+      color: var(--text);
+      font-size: clamp(13px, calc(var(--su) * 1.2), 16px);
+      line-height: 1.4;
+    }
+
+    .note {
+      margin-top: clamp(23px, calc(var(--su) * 2.6), 34px);
+      width: min(820px, 100%);
+      border-left: 4px solid var(--yellow);
+      border-radius: 0 13px 13px 0;
+      padding: clamp(14px, calc(var(--su) * 1.35), 18px) clamp(18px, calc(var(--su) * 1.7), 23px);
+      background: var(--navy);
+    }
+
+    .note p {
+      color: var(--white);
+      font-family: var(--heading);
+      font-size: clamp(14px, calc(var(--su) * 1.35), 18px);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .note.gold {
+      border-left-color: var(--purple);
+      background: var(--yellow);
+    }
+
+    .note.gold p {
+      color: var(--navy);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    .slide.active .reveal {
+      animation: enter .62s var(--ease) forwards;
+    }
+
+    .delay-1 {
+      animation-delay: .08s !important;
+    }
+
+    .delay-2 {
+      animation-delay: .16s !important;
+    }
+
+    .delay-3 {
+      animation-delay: .24s !important;
+    }
+
+    @keyframes enter {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Cover */
+    .cover {
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 83% 18%, rgba(234, 179, 8, .13), transparent 24%),
+        radial-gradient(circle at 78% 76%, rgba(91, 33, 182, .46), transparent 34%),
+        linear-gradient(128deg, var(--navy) 0%, var(--purple-deep) 62%, var(--purple) 100%);
+    }
+
+    .cover-copy {
+      position: relative;
+      z-index: 2;
+      width: 76%;
+    }
+
+    .cover h1 {
+      max-width: 780px;
+      font-size: clamp(42px, calc(var(--su) * 6.2), 80px);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -.055em;
+    }
+
+    .cover h1 span:last-child {
+      color: var(--yellow);
+    }
+
+    .cover h2 {
+      margin-top: clamp(16px, calc(var(--su) * 2.1), 27px);
+      max-width: 660px;
+      color: rgba(255, 255, 255, .77);
+      font-family: var(--body);
+      font-size: clamp(15px, calc(var(--su) * 1.46), 20px);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: clamp(26px, calc(var(--su) * 3.2), 42px);
+    }
+
+    .tag-row p {
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 10px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, .07);
+      color: rgba(255, 255, 255, .82);
+      font-size: clamp(11px, calc(var(--su) * 1.03), 14px);
+    }
+
+    /* Agenda */
+    .agenda .content {
+      max-width: calc(100% - 120px);
+    }
+
+    .pillar-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(12px, calc(var(--su) * 1.65), 22px);
+      margin-top: clamp(26px, calc(var(--su) * 3), 39px);
+      width: 100%;
+    }
+
+    .pillar-cards article {
+      min-height: clamp(116px, calc(var(--su) * 11), 145px);
+      display: flex;
+      align-items: flex-end;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: clamp(17px, calc(var(--su) * 1.8), 24px);
+      background: var(--white);
+      box-shadow: 0 12px 36px rgba(91, 33, 182, .07);
+    }
+
+    .pillar-cards h3 {
+      font-size: clamp(14px, calc(var(--su) * 1.35), 18px);
+      font-weight: 700;
+      line-height: 1.42;
+    }
+
+    /* Chapter */
+    .chapter {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(234, 179, 8, .08), transparent 29%),
+        linear-gradient(132deg, var(--navy), var(--purple));
+    }
+
+    .chapter-copy {
+      position: relative;
+      z-index: 2;
+      max-width: 920px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .chapter h2 {
+      font-size: clamp(35px, calc(var(--su) * 5.1), 66px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+
+    .chapter .subtitle {
+      margin-top: clamp(16px, calc(var(--su) * 2), 27px);
+      font-size: clamp(15px, calc(var(--su) * 1.58), 21px);
+    }
+
+    .chapter-rule {
+      width: 62px;
+      height: 4px;
+      margin: clamp(18px, calc(var(--su) * 2.25), 29px) 0 0;
+      border-radius: 4px;
+      background: var(--yellow);
+    }
+
+    /* Human-centered photo slides */
+    .scene {
+      display: block;
+      object-fit: cover;
+    }
+
+    .photo-cover {
+      padding: 0;
+      color: var(--white);
+      background: var(--navy);
+    }
+
+    .photo-cover::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(30, 27, 75, .98) 0%, rgba(30, 27, 75, .92) 34%, rgba(30, 27, 75, .50) 56%, rgba(30, 27, 75, .12) 100%),
+        linear-gradient(0deg, rgba(30, 27, 75, .28), transparent 34%);
+    }
+
+    .photo-cover .scene {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .photo-cover .brand {
+      background: rgba(30, 27, 75, .55);
+      border: 1px solid rgba(255, 255, 255, .18);
+      backdrop-filter: blur(10px);
+    }
+
+    .photo-cover .content {
+      z-index: 2;
+      width: min(525px, 46%);
+      max-width: none;
+      margin-left: clamp(36px, calc(var(--su) * 5.5), 70px);
+      align-items: flex-start;
+    }
+
+    .photo-cover .kicker {
+      border: 1px solid rgba(234, 179, 8, .25);
+      background: rgba(234, 179, 8, .15);
+      color: var(--yellow);
+    }
+
+    .photo-cover .title {
+      color: var(--white);
+      font-size: clamp(27px, calc(var(--su) * 3.05), 40px);
+    }
+
+    .photo-cover .lead,
+    .photo-cover .subtitle {
+      color: rgba(255, 255, 255, .68);
+    }
+
+    .photo-cover .body-grid {
+      grid-template-columns: 1fr;
+      width: 100%;
+      row-gap: 8px;
+    }
+
+    .photo-cover .body-grid li {
+      color: rgba(255, 255, 255, .93);
+    }
+
+    .photo-cover .note {
+      width: 100%;
+      border-left-color: var(--yellow);
+      background: rgba(255, 255, 255, .09);
+      backdrop-filter: blur(10px);
+    }
+
+    .photo-panel {
+      background: var(--gray);
+    }
+
+    .photo-panel::before {
+      content: "";
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 54%;
+      background: linear-gradient(90deg, var(--gray) 0%, rgba(243, 244, 246, 0) 15%);
+      pointer-events: none;
+    }
+
+    .photo-panel .scene {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 52.5%;
+      height: 100%;
+    }
+
+    .photo-panel .content {
+      z-index: 2;
+      max-width: min(520px, 46%);
+    }
+
+    .photo-panel .title {
+      font-size: clamp(26px, calc(var(--su) * 2.85), 38px);
+    }
+
+    .photo-panel .body-grid {
+      grid-template-columns: 1fr;
+      width: 100%;
+    }
+
+    .photo-panel .note {
+      width: 100%;
+    }
+
+    .photo-panel .brand {
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(30, 27, 75, .92);
+    }
+
+    /* Structure hero */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(12px, calc(var(--su) * 1.5), 20px);
+      width: min(800px, 100%);
+      margin-top: clamp(25px, calc(var(--su) * 3), 38px);
+    }
+
+    .facts p {
+      min-height: clamp(78px, calc(var(--su) * 8.2), 106px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 14px;
+      padding: 18px;
+      background: rgba(255, 255, 255, .07);
+      color: var(--white);
+      font-family: var(--heading);
+      font-size: clamp(16px, calc(var(--su) * 1.6), 22px);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* Table */
+    .list-table {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 12px;
+      margin-top: clamp(14px, calc(var(--su) * 1.4), 18px);
+      width: min(880px, 100%);
+    }
+
+    .list-table p {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: clamp(7px, calc(var(--su) * .62), 9px) clamp(11px, calc(var(--su) * .9), 13px);
+      background: var(--white);
+      color: var(--text);
+      font-size: clamp(11px, calc(var(--su) * 1.04), 14px);
+      line-height: 1.42;
+    }
+
+    /* Warning chips */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: clamp(22px, calc(var(--su) * 2.4), 31px);
+      width: min(860px, 100%);
+    }
+
+    .chips p {
+      border: 1px solid rgba(234, 179, 8, .38);
+      border-radius: 10px;
+      padding: 11px 17px;
+      background: rgba(234, 179, 8, .1);
+      color: var(--navy);
+      font-family: var(--heading);
+      font-size: clamp(13px, calc(var(--su) * 1.16), 16px);
+      font-weight: 600;
+    }
+
+    /* Closing */
+    .closing {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(234, 179, 8, .12), transparent 23%),
+        linear-gradient(128deg, var(--navy), var(--purple-deep) 66%, var(--purple));
+    }
+
+    .closing .brand {
+      position: static;
+      margin: 0 0 clamp(17px, calc(var(--su) * 1.8), 24px);
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .closing .brand img {
+      width: clamp(190px, calc(var(--su) * 20), 258px);
+    }
+
+    .closing-copy {
+      position: relative;
+      z-index: 2;
+      width: min(850px, 90%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .closing h2 {
+      font-size: clamp(33px, calc(var(--su) * 4.65), 60px);
+      font-weight: 800;
+      line-height: 1.14;
+      letter-spacing: -.045em;
+    }
+
+    .closing h2+h2 {
+      color: var(--yellow);
+    }
+
+    .closing .lead {
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .closing ul {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 14px;
+      list-style: none;
+    }
+
+    .closing li {
+      border-radius: 99px;
+      padding: 8px 15px;
+      background: rgba(234, 179, 8, .12);
+      color: var(--yellow);
+      font-size: clamp(11px, calc(var(--su) * 1), 14px);
+    }
+
+    .closing .note {
+      margin-top: clamp(18px, calc(var(--su) * 2.15), 28px);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-left: 4px solid var(--yellow);
+      background: rgba(255, 255, 255, .07);
+    }
+
+    .closing-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      margin-top: clamp(18px, calc(var(--su) * 2), 26px);
+    }
+
+    .closing-footer p {
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+      padding: 8px 14px;
+      color: rgba(255, 255, 255, .72);
+      font-size: clamp(10px, calc(var(--su) * .95), 13px);
+    }
+
+    /* Presentation controls */
+    #progress {
+      position: absolute;
+      z-index: 20;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      width: calc(100% / 27);
+      background: var(--yellow);
+      transition: width .4s var(--ease);
+    }
+
+    #counter {
+      position: absolute;
+      z-index: 20;
+      left: clamp(18px, calc(var(--su) * 2.8), 36px);
+      bottom: clamp(15px, calc(var(--su) * 2.2), 28px);
+      color: rgba(30, 27, 75, .36);
+      font-family: var(--heading);
+      font-size: clamp(10px, calc(var(--su) * .86), 12px);
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    #viewport[data-tone="dark"] #counter {
+      color: rgba(255, 255, 255, .45);
+    }
+
+    #controls {
+      position: absolute;
+      z-index: 20;
+      right: clamp(16px, calc(var(--su) * 2.4), 31px);
+      bottom: clamp(13px, calc(var(--su) * 1.8), 23px);
+      display: flex;
+      gap: 8px;
+    }
+
+    #controls button {
+      width: clamp(34px, calc(var(--su) * 3.25), 42px);
+      height: clamp(34px, calc(var(--su) * 3.25), 42px);
+      border: 1px solid rgba(91, 33, 182, .15);
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--purple);
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, opacity .18s ease;
+    }
+
+    #controls button:hover {
+      transform: translateY(-2px);
+      background: var(--gray);
+    }
+
+    #controls button:disabled {
+      cursor: default;
+      opacity: .3;
+      transform: none;
+    }
+
+    #viewport[data-tone="dark"] #controls button {
+      border-color: rgba(255, 255, 255, .18);
+      background: rgba(255, 255, 255, .08);
+      color: var(--white);
+    }
+
+    #viewport[data-tone="dark"] #controls button:hover {
+      background: rgba(255, 255, 255, .16);
+    }
+
+    #controls svg {
+      display: block;
+      margin: auto;
+    }
+
+    @media (max-width: 720px) {
+      .brand {
+        display: none;
+      }
+
+      .content,
+      .agenda .content {
+        max-width: 100%;
+      }
+
+      .body-grid,
+      .pillar-cards,
+      .facts,
+      .list-table {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      #deck,
+      #progress {
+        transition: none;
+      }
+
+      .slide.active .reveal {
+        animation-duration: 1ms;
+      }
+    }
+
+    @media print {
+      @page {
+        size: 16in 9in;
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: auto;
+        overflow: visible;
+        display: block;
+        padding: 0;
+        background: var(--white);
+      }
+
+      #viewport {
+        width: 16in;
+        height: 9in;
+        aspect-ratio: auto;
+        overflow: visible;
+        box-shadow: none;
+      }
+
+      #deck {
+        display: block;
+        height: auto;
+        transform: none !important;
+      }
+
+      .slide {
+        width: 16in;
+        height: 9in;
+        break-after: page;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+        animation: none !important;
+      }
+
+      #progress,
+      #counter,
+      #controls {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<main id="viewport" data-tone="dark">
-  <div id="deck">
-    <section class="slide cover dark dots" data-tone="dark">
-      <div class="cover-copy">
-        <p class="kicker reveal">Slide 1 — Capa</p>
-        <h1 class="reveal delay-1"><span>Aprovação</span> <span>Inteligente</span></h1>
-        <h2 class="reveal delay-2">Estratégias Jurídicas, Gestão Emocional e Alta Performance para a OAB</h2>
-        <div class="tag-row reveal delay-3">
-          <p>📍 Oficina ESMAC + Akeos</p>
-          <p>📍 Lara Ferreira dos Santos</p>
+  <main id="viewport" data-tone="dark">
+    <div id="deck">
+      <section class="slide cover dark dots" data-tone="dark">
+        <div class="cover-copy">
+          <h1 class="reveal delay-1"><span>Aprovação</span> <span>Inteligente</span></h1>
+          <h2 class="reveal delay-2">Estratégias Jurídicas, Gestão Emocional e Alta Performance para a OAB</h2>
+          <div class="tag-row reveal delay-3">
+            <p>📍 Oficina ESMAC + Akeos</p>
+            <p>📍 Lara Ferreira dos Santos</p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 2 — Introdução</p>
-        <h2 class="title reveal delay-1">A grande virada de chave</h2>
-        <ul class="body-grid one reveal delay-2">
-          <li>A OAB não é uma competição</li>
-          <li>Você não precisa acertar tudo</li>
-          <li>Você precisa atingir a pontuação mínima</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Estudar estrategicamente é mais importante do que estudar exaustivamente.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide soft agenda" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 3 — O que veremos hoje</p>
-        <h2 class="title reveal delay-1">3 PILARES DA APROVAÇÃO</h2>
-        <div class="pillar-cards reveal delay-2">
-          <article><h3>Pilar 1 → Rotina ajustada</h3></article>
-          <article><h3>Pilar 2 → Domínio do conteúdo</h3></article>
-          <article><h3>Pilar 3 → Mentalidade e inteligência emocional</h3></article>
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">A grande virada de chave</h2>
+          <ul class="body-grid one reveal delay-2">
+            <li>A OAB não é uma competição</li>
+            <li>Você não precisa acertar tudo</li>
+            <li>Você precisa atingir a pontuação mínima</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Estudar estrategicamente é mais importante do que estudar exaustivamente.</p>
+          </aside>
         </div>
-        <aside class="note gold reveal delay-3"><p>Estratégias para o dia da prova</p></aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide chapter dark dots" data-tone="dark">
-      <div class="chapter-copy">
-        <p class="kicker reveal">Slide 4 — Pilar 1</p>
-        <h2 class="reveal delay-1">ROTINA AJUSTADA</h2>
-        <div class="chapter-rule reveal delay-2"></div>
-        <p class="subtitle reveal delay-3">Aprovação exige organização sustentável.</p>
-      </div>
-    </section>
-
-    <section class="slide photo-cover" data-tone="dark">
-      <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-05-rotina-real.png" alt="" aria-hidden="true">
-      <div class="content">
-        <p class="kicker reveal">Slide 5 — Estratégia sem individualidade não funciona</p>
-        <h2 class="title reveal delay-1">Cada aluno possui uma realidade</h2>
-        <ul class="body-grid reveal delay-2">
-          <li>trabalho</li>
-          <li>estágio</li>
-          <li>filhos</li>
-          <li>faculdade</li>
-          <li>pouco tempo disponível</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>O melhor cronograma é o que funciona para sua rotina.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 6 — Metas reais</p>
-        <h2 class="title reveal delay-1">Constância &gt; intensidade exagerada</h2>
-        <div class="line-stack reveal delay-2">
-          <p>Estudar 12h sem conseguir manter</p>
-          <p>Estudar todas as matérias ao mesmo tempo</p>
-          <p>Criar metas impossíveis</p>
+      <section class="slide soft agenda" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">3 PILARES DA APROVAÇÃO</h2>
+          <div class="pillar-cards reveal delay-2">
+            <article>
+              <h3>Pilar 1 → Rotina ajustada</h3>
+            </article>
+            <article>
+              <h3>Pilar 2 → Domínio do conteúdo</h3>
+            </article>
+            <article>
+              <h3>Pilar 3 → Mentalidade e inteligência emocional</h3>
+            </article>
+          </div>
+          <aside class="note gold reveal delay-3">
+            <p>Estratégias para o dia da prova</p>
+          </aside>
         </div>
-        <aside class="note reveal delay-3"><p>O melhor plano é aquele que você consegue cumprir.</p></aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 7 — Flexibilidade inteligente</p>
-        <h2 class="title reveal delay-1">Disciplina não é rigidez</h2>
-        <p class="lead reveal delay-2">Imprevistos acontecem:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>cansaço</li>
-          <li>ansiedade</li>
-          <li>problemas pessoais</li>
-          <li>desgaste mental</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Um dia ruim não pode virar abandono da preparação.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide chapter dark dots" data-tone="dark">
-      <div class="chapter-copy">
-        <p class="kicker reveal">Slide 8 — Pilar 2</p>
-        <h2 class="reveal delay-1">DOMÍNIO DO CONTEÚDO</h2>
-        <div class="chapter-rule reveal delay-2"></div>
-        <p class="subtitle reveal delay-3">A OAB cobra interpretação e aplicação prática.</p>
-      </div>
-    </section>
-
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 9 — O foco maior deve estar na lei seca</p>
-        <h2 class="title reveal delay-1">A banca cobra muito texto de lei</h2>
-        <p class="lead reveal delay-2">A banca explora:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>prazos</li>
-          <li>exceções</li>
-          <li>competências</li>
-          <li>detalhes legais</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Não basta assistir aula.<br>É preciso ler legislação.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 10 — Saber aplicar o conteúdo ao caso concreto</p>
-        <h2 class="title reveal delay-1">A prova quer raciocínio jurídico</h2>
-        <p class="lead reveal delay-2">A OAB cobra:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>interpretação</li>
-          <li>identificação de institutos</li>
-          <li>aplicação da lei</li>
-          <li>resolução prática</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Não basta decorar conceitos.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 11 — Questões são treinamento</p>
-        <h2 class="title reveal delay-1">Resolver questões acelera aprovação</h2>
-        <p class="lead reveal delay-2">Questões ajudam a:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>identificar padrões da banca</li>
-          <li>melhorar interpretação</li>
-          <li>fixar conteúdo</li>
-          <li>descobrir pontos fracos</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Questão também é método de aprendizagem.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 12 — Estudar o que é relevante</p>
-        <h2 class="title reveal delay-1">Estudo estratégico</h2>
-        <p class="lead reveal delay-2">Nem todas as matérias possuem o mesmo peso.</p>
-        <p class="lead reveal delay-2">Priorize:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>assuntos mais cobrados</li>
-          <li>temas mais recorrentes</li>
-          <li>conteúdos de maior incidência</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>A OAB exige pontuação mínima, não perfeição.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide photo-panel" data-tone="light">
-      <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-13-desconforto.png" alt="" aria-hidden="true">
-      <div class="content">
-        <p class="kicker reveal">Slide 13 — Sair da zona de conforto</p>
-        <h2 class="title reveal delay-1">Crescimento acontece no desconforto</h2>
-        <p class="lead reveal delay-2">A aprovação exige enfrentar:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>matérias difíceis</li>
-          <li>assuntos cansativos</li>
-          <li>conteúdos que geram insegurança</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Evoluir exige enfrentar dificuldades.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 14 — Simulados são indispensáveis</p>
-        <h2 class="title reveal delay-1">O simulado aproxima você da prova real</h2>
-        <p class="lead reveal delay-2">Treine:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>tempo</li>
-          <li>resistência mental</li>
-          <li>emocional</li>
-          <li>ansiedade</li>
-          <li>estratégia</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Treinar comportamento também é preparação.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide chapter dark dots" data-tone="dark">
-      <div class="chapter-copy">
-        <p class="kicker reveal">Slide 15 — Pilar 3</p>
-        <h2 class="reveal delay-1">MENTALIDADE E INTELIGÊNCIA EMOCIONAL</h2>
-        <div class="chapter-rule reveal delay-2"></div>
-        <p class="subtitle reveal delay-3">Aprovação também é emocional.</p>
-      </div>
-    </section>
-
-    <section class="slide photo-cover" data-tone="dark">
-      <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-16-emocional.png" alt="" aria-hidden="true">
-      <div class="content">
-        <p class="kicker reveal">Slide 16 — Aprovação também é emocional</p>
-        <h2 class="title reveal delay-1">A preparação mexe com o psicológico</h2>
-        <p class="lead reveal delay-2">Em alguns momentos você vai:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>duvidar de si</li>
-          <li>sentir medo</li>
-          <li>achar que não está evoluindo</li>
-          <li>comparar sua evolução com a dos outros</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Inteligência emocional também é preparação.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 17 — Autoconfiança construída através da evolução real</p>
-        <h2 class="title reveal delay-1">Confiança vem da evolução</h2>
-        <p class="lead reveal delay-2">Acompanhe:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>percentual de acertos</li>
-          <li>desempenho por matéria</li>
-          <li>simulados</li>
-          <li>evolução nos resultados</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Quem monitora resultados estuda com estratégia.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide photo-panel" data-tone="light">
-      <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-18-comparacao.png" alt="" aria-hidden="true">
-      <div class="content">
-        <p class="kicker reveal">Slide 18 — Pare de se comparar</p>
-        <h2 class="title reveal delay-1">Cada aluno possui uma trajetória diferente</h2>
-        <ul class="body-grid reveal delay-2">
-          <li>rotina diferente</li>
-          <li>dificuldades diferentes</li>
-          <li>base diferente</li>
-          <li>tempo diferente de evolução</li>
-        </ul>
-        <aside class="note gold reveal delay-3"><p>Compare-se apenas com sua versão anterior.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide chapter dark dots" data-tone="dark">
-      <div class="chapter-copy">
-        <p class="kicker reveal">Slide 19 — ESTRUTURA DA PROVA</p>
-        <h2 class="reveal delay-1">Como funciona a 1ª fase?</h2>
-        <div class="facts reveal delay-2">
-          <p>80 questões</p>
-          <p>múltipla escolha</p>
-          <p>5 horas de duração</p>
+      <section class="slide chapter dark dots" data-tone="dark">
+        <div class="chapter-copy">
+          <h2 class="reveal delay-1">ROTINA AJUSTADA</h2>
+          <div class="chapter-rule reveal delay-2"></div>
+          <p class="subtitle reveal delay-3">Aprovação exige organização sustentável.</p>
         </div>
-        <aside class="note reveal delay-3"><p>📌 Estratégia de execução importa.</p></aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 20 — Questões e disciplinas</p>
-        <h2 class="title reveal delay-1">Onde estão a maioria das questões?</h2>
-        <p class="lead reveal delay-2">As disciplinas:</p>
-        <div class="list-table reveal delay-2">
-          <p>• Ética → 8 questões (10% da prova);</p>
-          <p>• Constitucional → 6 questões (7,5%);</p>
-          <p>• Civil → 6 questões (7,5%);</p>
-          <p>• Processo Civil → 6 questões (7,5%);</p>
-          <p>• Penal → 6 questões (7,5%);</p>
-          <p>• Processo Penal → 6 questões (7,5%);</p>
-          <p>• Trabalho → 5 questões (6,25%);</p>
-          <p>• Processo do Trabalho → 5 questões (6,25%);</p>
-          <p>• Administrativo → 5 questões (6,25%);</p>
-          <p>• Tributário → 5 questões (6,25%).</p>
+      <section class="slide photo-cover" data-tone="dark">
+        <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-05-rotina-real.png" alt=""
+          aria-hidden="true">
+        <div class="content">
+          <h2 class="title reveal delay-1">Cada aluno possui uma realidade</h2>
+          <ul class="body-grid reveal delay-2">
+            <li>trabalho</li>
+            <li>estágio</li>
+            <li>filhos</li>
+            <li>faculdade</li>
+            <li>pouco tempo disponível</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>O melhor cronograma é o que funciona para sua rotina.</p>
+          </aside>
         </div>
-        <aside class="note gold reveal delay-3"><p>Representam aproximadamente 72,5% da prova.</p></aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 21 — Por onde começar?</p>
-        <h2 class="title reveal delay-1">Estratégia de resolução</h2>
-        <div class="line-stack reveal delay-2">
-          <p>Faça a prova na ordem</p>
-          <p>Resolva primeiro o que você sabe</p>
-          <p>Pule questões difíceis</p>
-          <p>Volte depois nas dúvidas</p>
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Constância &gt; intensidade exagerada</h2>
+          <div class="line-stack reveal delay-2">
+            <p>Estudar 12h sem conseguir manter</p>
+            <p>Estudar todas as matérias ao mesmo tempo</p>
+            <p>Criar metas impossíveis</p>
+          </div>
+          <aside class="note reveal delay-3">
+            <p>O melhor plano é aquele que você consegue cumprir.</p>
+          </aside>
         </div>
-        <aside class="note reveal delay-3"><p>A primeira volta serve para garantir pontos.</p></aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 22 — E o que fazer com as questões difíceis?</p>
-        <h2 class="title reveal delay-1">Técnica de eliminação</h2>
-        <p class="lead reveal delay-2">Quando estiver em dúvida:</p>
-        <ul class="body-grid one reveal delay-2">
-          <li>elimine alternativas absurdas</li>
-          <li>descarte opções incompatíveis com a lei</li>
-          <li>reduza entre 2 alternativas</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Eliminar alternativas aumenta suas chances de acerto.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 23 — Terminou a questão 80? Agora sim você volta</p>
-        <h2 class="title reveal delay-1">Revisão inteligente</h2>
-        <p class="lead reveal delay-2">Volte apenas:</p>
-        <ul class="body-grid one reveal delay-2">
-          <li>nas questões em branco</li>
-          <li>nas questões com dúvida</li>
-        </ul>
-        <div class="line-stack reveal delay-3">
-          <p>Não revise questões já marcadas com segurança.</p>
-          <p>Não troque gabarito por nervosismo.</p>
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Disciplina não é rigidez</h2>
+          <p class="lead reveal delay-2">Imprevistos acontecem:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>cansaço</li>
+            <li>ansiedade</li>
+            <li>problemas pessoais</li>
+            <li>desgaste mental</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Um dia ruim não pode virar abandono da preparação.</p>
+          </aside>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide soft" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 24 — Expressões problemáticas</p>
-        <h2 class="title reveal delay-1">Palavras que merecem atenção</h2>
-        <div class="chips reveal delay-2">
-          <p>⚠️ sempre</p>
-          <p>⚠️ nunca</p>
-          <p>⚠️ jamais</p>
-          <p>⚠️ sem exceção</p>
-          <p>⚠️ obrigatoriamente</p>
-          <p>⚠️ exclusivamente</p>
-          <p>⚠️ em nenhuma hipótese</p>
+      <section class="slide chapter dark dots" data-tone="dark">
+        <div class="chapter-copy">
+          <h2 class="reveal delay-1">DOMÍNIO DO CONTEÚDO</h2>
+          <div class="chapter-rule reveal delay-2"></div>
+          <p class="subtitle reveal delay-3">A OAB cobra interpretação e aplicação prática.</p>
         </div>
-        <aside class="note gold reveal delay-3"><p>Alternativas muito absolutas possuem maior chance de erro.</p></aside>
-      </div>
-    </section>
+      </section>
 
-    <section class="slide light" data-tone="light">
-      <div class="content">
-        <p class="kicker reveal">Slide 25 — Quanto tempo separar para o cartão-resposta?</p>
-        <h2 class="title reveal delay-1">Administração do tempo</h2>
-        <p class="subtitle reveal delay-2">Reserve os últimos 40 minutos</p>
-        <p class="lead reveal delay-2">Ideal:</p>
-        <ul class="body-grid one reveal delay-2">
-          <li>finalizar a prova em até 4h20</li>
-          <li>preencher o cartão apenas no final</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Não fique passando respostas ao longo da prova.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide photo-cover" data-tone="dark">
-      <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-26-pausa-prova.png" alt="" aria-hidden="true">
-      <div class="content">
-        <p class="kicker reveal">Slide 26 — Fazer pausas estratégicas durante a prova</p>
-        <h2 class="title reveal delay-1">Controle emocional durante a prova</h2>
-        <p class="lead reveal delay-2">Durante a prova:</p>
-        <ul class="body-grid reveal delay-2">
-          <li>respire</li>
-          <li>tome água</li>
-          <li>desacelere alguns segundos</li>
-          <li>reorganize o raciocínio</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>📌 Pequenas pausas ajudam a recuperar concentração.</p></aside>
-      </div>
-    </section>
-
-    <section class="slide closing dark dots" data-tone="dark">
-      <div class="closing-copy">
-        <div class="brand reveal"><img src="/aprovacao-inteligente/logo-akeos.webp" alt="Akeos"></div>
-        <p class="kicker reveal">Slide 27 — Conclusão</p>
-        <h2 class="reveal delay-1">OAB não é sorte.</h2>
-        <h2 class="reveal delay-1">OAB é estratégia.</h2>
-        <p class="lead reveal delay-2">A aprovação depende de:</p>
-        <ul class="reveal delay-2">
-          <li>constância</li>
-          <li>treino</li>
-          <li>inteligência emocional</li>
-          <li>preparação estratégica</li>
-        </ul>
-        <aside class="note reveal delay-3"><p>Você não precisa ser perfeito.<br>Você precisa ser consistente.</p></aside>
-        <div class="closing-footer reveal delay-3">
-          <p>Akeos + ESMAC</p>
-          <p>Instagram: @akeos.oab</p>
-          <p>WhatsApp: (91) 99373-0730</p>
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">A banca cobra muito texto de lei</h2>
+          <p class="lead reveal delay-2">A banca explora:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>prazos</li>
+            <li>exceções</li>
+            <li>competências</li>
+            <li>detalhes legais</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Não basta assistir aula.<br>É preciso ler legislação.</p>
+          </aside>
         </div>
-      </div>
-    </section>
-  </div>
+      </section>
 
-  <div id="progress"></div>
-  <div id="counter">1 / 27</div>
-  <nav id="controls" aria-label="Navegação da apresentação">
-    <button id="prev" type="button" aria-label="Slide anterior">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <button id="next" type="button" aria-label="Próximo slide">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-  </nav>
-</main>
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">A prova quer raciocínio jurídico</h2>
+          <p class="lead reveal delay-2">A OAB cobra:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>interpretação</li>
+            <li>identificação de institutos</li>
+            <li>aplicação da lei</li>
+            <li>resolução prática</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Não basta decorar conceitos.</p>
+          </aside>
+        </div>
+      </section>
 
-<script>
-(() => {
-  const viewport = document.getElementById("viewport");
-  const deck = document.getElementById("deck");
-  const slides = Array.from(document.querySelectorAll(".slide"));
-  const progress = document.getElementById("progress");
-  const counter = document.getElementById("counter");
-  const prev = document.getElementById("prev");
-  const next = document.getElementById("next");
-  let index = 0;
-  const requestedSlide = Number(new URLSearchParams(window.location.search).get("slide"));
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Resolver questões acelera aprovação</h2>
+          <p class="lead reveal delay-2">Questões ajudam a:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>identificar padrões da banca</li>
+            <li>melhorar interpretação</li>
+            <li>fixar conteúdo</li>
+            <li>descobrir pontos fracos</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Questão também é método de aprendizagem.</p>
+          </aside>
+        </div>
+      </section>
 
-  if (Number.isInteger(requestedSlide) && requestedSlide >= 1 && requestedSlide <= slides.length) {
-    index = requestedSlide - 1;
-  }
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Estudo estratégico</h2>
+          <p class="lead reveal delay-2">Nem todas as matérias possuem o mesmo peso.</p>
+          <p class="lead reveal delay-2">Priorize:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>assuntos mais cobrados</li>
+            <li>temas mais recorrentes</li>
+            <li>conteúdos de maior incidência</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>A OAB exige pontuação mínima, não perfeição.</p>
+          </aside>
+        </div>
+      </section>
 
-  function update() {
-    deck.style.transform = `translateX(-${index * 100}%)`;
-    progress.style.width = `${((index + 1) / slides.length) * 100}%`;
-    counter.textContent = `${index + 1} / ${slides.length}`;
-    viewport.dataset.tone = slides[index].dataset.tone;
-    slides.forEach((slide, position) => slide.classList.toggle("active", position === index));
-    prev.disabled = index === 0;
-    next.disabled = index === slides.length - 1;
-  }
+      <section class="slide photo-panel" data-tone="light">
+        <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-13-desconforto.png" alt=""
+          aria-hidden="true">
+        <div class="content">
+          <h2 class="title reveal delay-1">Crescimento acontece no desconforto</h2>
+          <p class="lead reveal delay-2">A aprovação exige enfrentar:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>matérias difíceis</li>
+            <li>assuntos cansativos</li>
+            <li>conteúdos que geram insegurança</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Evoluir exige enfrentar dificuldades.</p>
+          </aside>
+        </div>
+      </section>
 
-  function move(direction) {
-    const target = index + direction;
-    if (target >= 0 && target < slides.length) {
-      index = target;
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">O simulado aproxima você da prova real</h2>
+          <p class="lead reveal delay-2">Treine:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>tempo</li>
+            <li>resistência mental</li>
+            <li>emocional</li>
+            <li>ansiedade</li>
+            <li>estratégia</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Treinar comportamento também é preparação.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide chapter dark dots" data-tone="dark">
+        <div class="chapter-copy">
+          <h2 class="reveal delay-1">MENTALIDADE E INTELIGÊNCIA EMOCIONAL</h2>
+          <div class="chapter-rule reveal delay-2"></div>
+          <p class="subtitle reveal delay-3">Aprovação também é emocional.</p>
+        </div>
+      </section>
+
+      <section class="slide photo-cover" data-tone="dark">
+        <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-16-emocional.png" alt=""
+          aria-hidden="true">
+        <div class="content">
+          <h2 class="title reveal delay-1">A preparação mexe com o psicológico</h2>
+          <p class="lead reveal delay-2">Em alguns momentos você vai:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>duvidar de si</li>
+            <li>sentir medo</li>
+            <li>achar que não está evoluindo</li>
+            <li>comparar sua evolução com a dos outros</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Inteligência emocional também é preparação.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Confiança vem da evolução</h2>
+          <p class="lead reveal delay-2">Acompanhe:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>percentual de acertos</li>
+            <li>desempenho por matéria</li>
+            <li>simulados</li>
+            <li>evolução nos resultados</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Quem monitora resultados estuda com estratégia.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide photo-panel" data-tone="light">
+        <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-18-comparacao.png" alt=""
+          aria-hidden="true">
+        <div class="content">
+          <h2 class="title reveal delay-1">Cada aluno possui uma trajetória diferente</h2>
+          <ul class="body-grid reveal delay-2">
+            <li>rotina diferente</li>
+            <li>dificuldades diferentes</li>
+            <li>base diferente</li>
+            <li>tempo diferente de evolução</li>
+          </ul>
+          <aside class="note gold reveal delay-3">
+            <p>Compare-se apenas com sua versão anterior.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide chapter dark dots" data-tone="dark">
+        <div class="chapter-copy">
+          <h2 class="reveal delay-1">Como funciona a 1ª fase?</h2>
+          <div class="facts reveal delay-2">
+            <p>80 questões</p>
+            <p>múltipla escolha</p>
+            <p>5 horas de duração</p>
+          </div>
+          <aside class="note reveal delay-3">
+            <p>📌 Estratégia de execução importa.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Onde estão a maioria das questões?</h2>
+          <p class="lead reveal delay-2">As disciplinas:</p>
+          <div class="list-table reveal delay-2">
+            <p>• Ética → 8 questões (10% da prova);</p>
+            <p>• Constitucional → 6 questões (7,5%);</p>
+            <p>• Civil → 6 questões (7,5%);</p>
+            <p>• Processo Civil → 6 questões (7,5%);</p>
+            <p>• Penal → 6 questões (7,5%);</p>
+            <p>• Processo Penal → 6 questões (7,5%);</p>
+            <p>• Trabalho → 5 questões (6,25%);</p>
+            <p>• Processo do Trabalho → 5 questões (6,25%);</p>
+            <p>• Administrativo → 5 questões (6,25%);</p>
+            <p>• Tributário → 5 questões (6,25%).</p>
+          </div>
+          <aside class="note gold reveal delay-3">
+            <p>Representam aproximadamente 72,5% da prova.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Estratégia de resolução</h2>
+          <div class="line-stack reveal delay-2">
+            <p>Faça a prova na ordem</p>
+            <p>Resolva primeiro o que você sabe</p>
+            <p>Pule questões difíceis</p>
+            <p>Volte depois nas dúvidas</p>
+          </div>
+          <aside class="note reveal delay-3">
+            <p>A primeira volta serve para garantir pontos.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Técnica de eliminação</h2>
+          <p class="lead reveal delay-2">Quando estiver em dúvida:</p>
+          <ul class="body-grid one reveal delay-2">
+            <li>elimine alternativas absurdas</li>
+            <li>descarte opções incompatíveis com a lei</li>
+            <li>reduza entre 2 alternativas</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Eliminar alternativas aumenta suas chances de acerto.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Revisão inteligente</h2>
+          <p class="lead reveal delay-2">Volte apenas:</p>
+          <ul class="body-grid one reveal delay-2">
+            <li>nas questões em branco</li>
+            <li>nas questões com dúvida</li>
+          </ul>
+          <div class="line-stack reveal delay-3">
+            <p>Não revise questões já marcadas com segurança.</p>
+            <p>Não troque gabarito por nervosismo.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide soft" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Palavras que merecem atenção</h2>
+          <div class="chips reveal delay-2">
+            <p>⚠️ sempre</p>
+            <p>⚠️ nunca</p>
+            <p>⚠️ jamais</p>
+            <p>⚠️ sem exceção</p>
+            <p>⚠️ obrigatoriamente</p>
+            <p>⚠️ exclusivamente</p>
+            <p>⚠️ em nenhuma hipótese</p>
+          </div>
+          <aside class="note gold reveal delay-3">
+            <p>Alternativas muito absolutas possuem maior chance de erro.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide light" data-tone="light">
+        <div class="content">
+          <h2 class="title reveal delay-1">Administração do tempo</h2>
+          <p class="subtitle reveal delay-2">Reserve os últimos 40 minutos</p>
+          <p class="lead reveal delay-2">Ideal:</p>
+          <ul class="body-grid one reveal delay-2">
+            <li>finalizar a prova em até 4h20</li>
+            <li>preencher o cartão apenas no final</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Não fique passando respostas ao longo da prova.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide photo-cover" data-tone="dark">
+        <img class="scene" src="/aprovacao-inteligente/assets/presentation-variation/slide-26-pausa-prova.png" alt=""
+          aria-hidden="true">
+        <div class="content">
+          <h2 class="title reveal delay-1">Controle emocional durante a prova</h2>
+          <p class="lead reveal delay-2">Durante a prova:</p>
+          <ul class="body-grid reveal delay-2">
+            <li>respire</li>
+            <li>tome água</li>
+            <li>desacelere alguns segundos</li>
+            <li>reorganize o raciocínio</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>📌 Pequenas pausas ajudam a recuperar concentração.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="slide closing dark dots" data-tone="dark">
+        <div class="closing-copy">
+          <div class="brand reveal"><img src="/aprovacao-inteligente/logo-akeos.webp" alt="Akeos"></div>
+          <h2 class="reveal delay-1">OAB não é sorte.</h2>
+          <h2 class="reveal delay-1">OAB é estratégia.</h2>
+          <p class="lead reveal delay-2">A aprovação depende de:</p>
+          <ul class="reveal delay-2">
+            <li>constância</li>
+            <li>treino</li>
+            <li>inteligência emocional</li>
+            <li>preparação estratégica</li>
+          </ul>
+          <aside class="note reveal delay-3">
+            <p>Você não precisa ser perfeito.<br>Você precisa ser consistente.</p>
+          </aside>
+          <div class="closing-footer reveal delay-3">
+            <p>Akeos + ESMAC</p>
+            <p>Instagram: @akeos.oab</p>
+            <p>WhatsApp: (91) 99373-0730</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="progress"></div>
+    <div id="counter">1 / 27</div>
+    <nav id="controls" aria-label="Navegação da apresentação">
+      <button id="prev" type="button" aria-label="Slide anterior">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <button id="next" type="button" aria-label="Próximo slide">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+    </nav>
+  </main>
+
+  <script>
+    (() => {
+      const viewport = document.getElementById("viewport");
+      const deck = document.getElementById("deck");
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const progress = document.getElementById("progress");
+      const counter = document.getElementById("counter");
+      const prev = document.getElementById("prev");
+      const next = document.getElementById("next");
+      let index = 0;
+      const requestedSlide = Number(new URLSearchParams(window.location.search).get("slide"));
+
+      if (Number.isInteger(requestedSlide) && requestedSlide >= 1 && requestedSlide <= slides.length) {
+        index = requestedSlide - 1;
+      }
+
+      function update() {
+        deck.style.transform = `translateX(-${index * 100}%)`;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        counter.textContent = `${index + 1} / ${slides.length}`;
+        viewport.dataset.tone = slides[index].dataset.tone;
+        slides.forEach((slide, position) => slide.classList.toggle("active", position === index));
+        prev.disabled = index === 0;
+        next.disabled = index === slides.length - 1;
+      }
+
+      function move(direction) {
+        const target = index + direction;
+        if (target >= 0 && target < slides.length) {
+          index = target;
+          update();
+        }
+      }
+
+      prev.addEventListener("click", () => move(-1));
+      next.addEventListener("click", () => move(1));
+      document.addEventListener("keydown", event => {
+        if (["ArrowRight", "PageDown", " ", "Enter"].includes(event.key)) {
+          event.preventDefault();
+          move(1);
+        }
+        if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          move(-1);
+        }
+        if (event.key === "Home") {
+          index = 0;
+          update();
+        }
+        if (event.key === "End") {
+          index = slides.length - 1;
+          update();
+        }
+      });
+
+      let touchStart = null;
+      viewport.addEventListener("touchstart", event => {
+        touchStart = event.changedTouches[0].clientX;
+      }, { passive: true });
+      viewport.addEventListener("touchend", event => {
+        if (touchStart === null) {
+          return;
+        }
+        const distance = event.changedTouches[0].clientX - touchStart;
+        if (Math.abs(distance) > 45) {
+          move(distance < 0 ? 1 : -1);
+        }
+        touchStart = null;
+      }, { passive: true });
+
       update();
-    }
-  }
-
-  prev.addEventListener("click", () => move(-1));
-  next.addEventListener("click", () => move(1));
-  document.addEventListener("keydown", event => {
-    if (["ArrowRight", "PageDown", " ", "Enter"].includes(event.key)) {
-      event.preventDefault();
-      move(1);
-    }
-    if (["ArrowLeft", "PageUp"].includes(event.key)) {
-      event.preventDefault();
-      move(-1);
-    }
-    if (event.key === "Home") {
-      index = 0;
-      update();
-    }
-    if (event.key === "End") {
-      index = slides.length - 1;
-      update();
-    }
-  });
-
-  let touchStart = null;
-  viewport.addEventListener("touchstart", event => {
-    touchStart = event.changedTouches[0].clientX;
-  }, { passive: true });
-  viewport.addEventListener("touchend", event => {
-    if (touchStart === null) {
-      return;
-    }
-    const distance = event.changedTouches[0].clientX - touchStart;
-    if (Math.abs(distance) > 45) {
-      move(distance < 0 ? 1 : -1);
-    }
-    touchStart = null;
-  }, { passive: true });
-
-  update();
-})();
-</script>
+    })();
+  </script>
 </body>
+
 </html>
